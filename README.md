@@ -26,11 +26,12 @@ Features include:
 ### Guide to installation
 
 Clone two of them in one folder.
+```
 .
 └── your-folder-name
     ├── frontend-folder
     ├── backend-folder
-
+```
 
 
 Install corepack with your terminal as Administrator.

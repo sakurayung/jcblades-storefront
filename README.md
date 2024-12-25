@@ -23,9 +23,28 @@ Features include:
 # Quickstart
 
 
-### Install dependencies
+### Guide to installation
 
-Use Yarn to install all dependencies.
+Clone two of them in one folder.
+.
+└── your-folder-name
+    ├── frontend-folder
+    ├── backend-folder
+
+
+
+Install corepack with your terminal as Administrator.
+
+```shell
+corepack enable
+```
+
+Go to folder frontend and backend and
+use Yarn to install all dependencies.
+```shell
+cd frontend-folder
+cd backend-folder
+```
 
 ```shell
 yarn

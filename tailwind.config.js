@@ -69,6 +69,8 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
+        rubik: ["Rubik", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
       keyframes: {
         ring: {

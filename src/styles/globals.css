@@ -107,6 +107,9 @@
   .text-3xl-regular {
     @apply text-[32px] leading-[44px] font-normal;
   }
+  .text-3xl-footer {
+    @apply text-[48px] leading-[57px] font-semibold;
+  }
 
   .text-3xl-semi {
     @apply text-[32px] leading-[44px] font-semibold;

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
 const PUBLISHABLE_API_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "us"
+const DEFAULT_REGION = process.env.NEXT_PUBLIC_DEFAULT_REGION || "ph"
 
 const regionMapCache = {
   regionMap: new Map<string, HttpTypes.StoreRegion>(),
@@ -84,10 +84,13 @@ async function getCountryCode(
   }
 }
 
+const PUBLIC_FILE_PATTERN = /\.(.*)$/
+
 /**
  * Middleware to handle region selection and onboarding status.
  */
 export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl
   const searchParams = request.nextUrl.searchParams
   const isOnboarding = searchParams.get("onboarding") === "true"
   const cartId = searchParams.get("cart_id")
@@ -137,6 +140,13 @@ export async function middleware(request: NextRequest) {
   if (isOnboarding) {
     response.cookies.set("_medusa_onboarding", "true", { maxAge: 60 * 60 * 24 })
   }
+
+  //Exclude all files in the public folder
+  if (
+    pathname.startsWith("/public") ||
+    PUBLIC_FILE_PATTERN.test(pathname) 
+  )
+    return NextResponse.next()
 
   return response
 }

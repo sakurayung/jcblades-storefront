@@ -1,6 +1,7 @@
 import { getCategoriesList } from "@lib/data/categories"
 import { getCollectionsList } from "@lib/data/collections"
 import { Text, clx } from "@medusajs/ui"
+import Image from "next/image"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
@@ -18,10 +19,11 @@ export default async function Footer() {
               href="/"
               className="txt-compact-xlarge-plus text-ui-fg-subtle uppercase font-sans text-white"
             >
-              <img
+              <Image
                 src="/jcbladeslogo.png"
                 alt="JC Blades Logo"
-                className="w-[114px] h-[114px]"
+                width={150}
+                height={150}
               />
             </LocalizedClientLink>
           </div>

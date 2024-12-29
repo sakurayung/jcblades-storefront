@@ -1,4 +1,8 @@
+"use client"
+import { Button } from "@medusajs/ui"
 import Image from "next/image"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { motion } from "framer-motion"
 
 const Hero = () => {
   return (
@@ -8,11 +12,31 @@ const Hero = () => {
           src="/landingpageimage.png"
           fill
           sizes="100vw"
-          className="object-cover"
+           className="object-cover object-center"
           quality={100}
           priority
           alt="Knife Image"
         />
+       <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="absolute top-1/3 left-[10%] text-white text-9xl z-10 uppercase font-poppins font-semibold text-center whitespace-nowrap tracking-tighter"
+        >
+          <h1>Precision In Every Blade</h1>
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          className="absolute top-[50%] left-[45%] transform z-10"
+        >
+          <LocalizedClientLink href="/store">
+            <Button className="bg-black/50 hover:bg-white hover:text-black hover:border-white duration-200 text-xl px-12 py-6">
+              Shop Now
+            </Button>
+          </LocalizedClientLink>
+        </motion.div>
       </div>
     </div>
   )

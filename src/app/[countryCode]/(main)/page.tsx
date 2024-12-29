@@ -4,6 +4,7 @@ import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
 import { getCollectionsWithProducts } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
+import Collections from "@modules/home/components/list-products"
 
 export const metadata: Metadata = {
   title: "JC Blades",
@@ -30,6 +31,10 @@ export default async function Home({
         <ul className="flex flex-col gap-x-6">
           <FeaturedProducts collections={collections} region={region} />
         </ul>
+        <div>
+          <h1>Our Collections</h1>
+          <Collections />
+        </div>
       </div>
     </>
   )

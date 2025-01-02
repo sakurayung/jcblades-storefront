@@ -1,33 +1,42 @@
-import { Github } from "@medusajs/icons"
-import { Button, Heading } from "@medusajs/ui"
+"use client"
+import { Button } from "@medusajs/ui"
+import Image from "next/image"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { motion } from "framer-motion"
 
 const Hero = () => {
   return (
-    <div className="h-[75vh] w-full border-b border-ui-border-base relative bg-ui-bg-subtle">
-      <div className="absolute inset-0 z-10 flex flex-col justify-center items-center text-center small:p-32 gap-6">
-        <span>
-          <Heading
-            level="h1"
-            className="text-3xl leading-10 text-ui-fg-base font-normal"
-          >
-            Ecommerce Starter Template
-          </Heading>
-          <Heading
-            level="h2"
-            className="text-3xl leading-10 text-ui-fg-subtle font-normal"
-          >
-            Powered by Medusa and Next.js
-          </Heading>
-        </span>
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
+    <div className="h-screen w-full">
+      <div className="relative w-full h-full">
+        <Image
+          src="/landingpageimage.png"
+          fill
+          sizes="100vw"
+           className="object-cover object-center"
+          quality={100}
+          priority
+          alt="Knife Image"
+        />
+       <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="absolute top-1/3 left-[10%] text-white text-9xl z-10 uppercase font-poppins font-semibold text-center whitespace-nowrap tracking-tighter"
         >
-          <Button variant="secondary">
-            View on GitHub
-            <Github />
-          </Button>
-        </a>
+          <h1>Precision In Every Blade</h1>
+        </motion.div>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          className="absolute top-[50%] left-[45%] transform z-10"
+        >
+          <LocalizedClientLink href="/store">
+            <Button className="bg-black/50 hover:bg-white hover:text-black hover:border-white duration-200 text-xl px-12 py-6">
+              Shop Now
+            </Button>
+          </LocalizedClientLink>
+        </motion.div>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { Text, clx } from "@medusajs/ui"
+import Image from "next/image"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
@@ -12,21 +13,29 @@ export default async function Footer() {
   const productCategories = await listCategories()
 
   return (
-    <footer className="border-t border-ui-border-base w-full">
+    <footer className="border-t border-ui-border-base w-full  bg-black">
       <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
+        <div className="flex flex-col items-center gap-y-6 xsmall:flex-row justify-between py-28">
           <div>
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+              className="txt-compact-xlarge-plus text-ui-fg-subtle uppercase font-sans text-white"
             >
-              Medusa Store
+              <Image
+                src="/jcbladeslogo.png"
+                alt="JC Blades Logo"
+                width={150}
+                height={150}
+              />
             </LocalizedClientLink>
+          </div>
+          <div className="flex uppercase text-white text-5xl w-[541px] font-rubik text-3xl-footer ">
+            BLADES ARE JEWELRY FOR REAL MEN.
           </div>
           <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
+                <span className="txt-small-plus txt-ui-fg-base text-white uppercase font-poppins">
                   Categories
                 </span>
                 <ul
@@ -109,16 +118,18 @@ export default async function Footer() {
               </div>
             )}
             <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
+              <span className="txt-small-plus txt-ui-fg-base font-poppins text-white">
+                ORDERS
+              </span>
               <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
                 <li>
                   <a
-                    href="https://github.com/medusajs"
+                    href=""
                     target="_blank"
                     rel="noreferrer"
                     className="hover:text-ui-fg-base"
                   >
-                    GitHub
+                    Orders and Delivery
                   </a>
                 </li>
                 <li>
@@ -128,7 +139,7 @@ export default async function Footer() {
                     rel="noreferrer"
                     className="hover:text-ui-fg-base"
                   >
-                    Documentation
+                    Returns and Refund
                   </a>
                 </li>
                 <li>
@@ -138,18 +149,83 @@ export default async function Footer() {
                     rel="noreferrer"
                     className="hover:text-ui-fg-base"
                   >
-                    Source code
+                    Payment and Pricing Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <span className="txt-small-plus txt-ui-fg-base font-poppins text-white">
+                ABOUT
+              </span>
+              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+                <li>
+                  <a
+                    href=""
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-ui-fg-base"
+                  >
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href=""
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-ui-fg-base"
+                  >
+                    Contact Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href=""
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-ui-fg-base"
+                  >
+                    FAQs
                   </a>
                 </li>
               </ul>
             </div>
           </div>
         </div>
+        <div className="flex justify-between w-full">
+          <div className="flex gap-9">
+            <div className="flex flex-col gap-y-2">
+              <ul className="text-white font-rubik">
+                <a href="">Instagram</a>
+              </ul>
+              <ul className="text-white font-rubik">
+                <a href="">Facebook</a>
+              </ul>
+            </div>
+            <div className="flex flex-col gap-y-2">
+              <ul className="text-white font-rubik">
+                <a href="">YouTube</a>
+              </ul>
+              <ul className="text-white font-rubik">
+                <a href="">TikTok</a>
+              </ul>
+            </div>
+          </div>
+          <div className="flex flex-col gap-y-2">
+            <ul className="text-white font-rubik hover:text-ui-fg-base">
+              <a href="">claymore0three@gmail.com</a>
+            </ul>
+            <ul className="text-white font-rubik">
+              <p>Davao City, 8000</p>
+            </ul>
+          </div>
+        </div>
+        <hr className="w-full my-2 bg-slate-800" />
         <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
           <Text className="txt-compact-small">
-            © {new Date().getFullYear()} Medusa Store. All rights reserved.
+            © {new Date().getFullYear()} JC Blades. All rights reserved.
           </Text>
-          <MedusaCTA />
         </div>
       </div>
     </footer>

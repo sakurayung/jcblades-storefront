@@ -1,7 +1,6 @@
 import { listProducts } from "@lib/data/products"
 import { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
-
 import InteractiveLink from "@modules/common/components/interactive-link"
 import ProductPreview from "@modules/products/components/product-preview"
 
@@ -23,10 +22,8 @@ export default async function ProductRail({
       },
     })
 
-    console.log("Fetched products:", pricedProducts);
-
-    if (!pricedProducts || pricedProducts.length === 0) {
-      return <Text>No products available</Text>;
+    if (!pricedProducts) {
+      return null
     }
 
     return (

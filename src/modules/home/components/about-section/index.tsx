@@ -11,7 +11,7 @@ const AboutSection = () => {
         <div className="py-32">
            <div>
             <p className="font-poppins text-5xl w-[1200px] mb-6">
-            JC Blades is a knifemaker situated in Davao, Philippines. We design high-quality knives that attract people's curiosity.
+            JC Blades is a knifemaker hobbyist situated in Davao, Philippines. We design high-quality knives that attract people's curiosity.
             </p>
             <div className="flex items-center gap-5">
             <p className="font-poppins text-xl">

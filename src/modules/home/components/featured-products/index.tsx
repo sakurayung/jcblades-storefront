@@ -8,13 +8,9 @@ export default async function FeaturedProducts({
   collections: HttpTypes.StoreCollection[]
   region: HttpTypes.StoreRegion
 }) {
-  return (
-    <>
-      {collections.map(({ id, ...collection }) => (
-        <li key={id}>
-          <ProductRail collection={collection} region={region} />
-        </li>
-      ))}
-    </>
-  )
+  return collections.map((collection) => (
+    <li key={collection.id}>
+      <ProductRail collection={collection} region={region} />
+    </li>
+  ))
 }

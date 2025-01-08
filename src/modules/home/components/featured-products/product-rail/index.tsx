@@ -1,7 +1,6 @@
 import { listProducts } from "@lib/data/products"
 import { HttpTypes } from "@medusajs/types"
 import { Text } from "@medusajs/ui"
-
 import InteractiveLink from "@modules/common/components/interactive-link"
 import ProductPreview from "@modules/products/components/product-preview"
 
@@ -23,16 +22,14 @@ export default async function ProductRail({
       },
     })
 
-    console.log("Fetched products:", pricedProducts);
-
-    if (!pricedProducts || pricedProducts.length === 0) {
-      return <Text>No products available</Text>;
+    if (!pricedProducts) {
+      return null
     }
 
     return (
       <div className="content-container py-12 small:py-24">
         <div className="flex justify-between mb-8">
-          <Text className="txt-xlarge">{collection.title}</Text>
+          <Text className="text-3xl-regular font-poppins">{collection.title}</Text>
           <InteractiveLink href={`/collections/${collection.handle}`}>
             View all
           </InteractiveLink>

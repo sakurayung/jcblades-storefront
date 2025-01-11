@@ -3,6 +3,7 @@ import { Button } from "@medusajs/ui"
 import Image from "next/image"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { motion } from "framer-motion"
+import { ArrowRightMini } from "@medusajs/icons"
 
 const Hero = () => {
   return (
@@ -29,11 +30,12 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="absolute top-[50%] left-[45%] transform z-10"
+          className="absolute top-[50%] left-[47%] transform z-10"
         >
           <LocalizedClientLink href="/store">
-            <Button className="bg-black/50 hover:bg-white hover:text-black hover:border-white duration-200 text-xl px-12 py-6">
+            <Button variant="transparent" className="text-white hover:text-black duration-200 text-lg text-base uppercase px-6 py-4">
               Shop Now
+              <ArrowRightMini/> 
             </Button>
           </LocalizedClientLink>
         </motion.div>

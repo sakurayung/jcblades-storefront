@@ -6,11 +6,11 @@ export const metadata: Metadata = {
 
 const AboutPage = () => {
   return (
-    <div className="content-container">
+    <div className="content-container my-12">
       <div>
-        <h1 className="text-5xl py-6 mt-24">About JC Blades</h1>
+        <h1 className="text-5xl mb-6">About JC Blades</h1>
       </div>
-      <div className="flex flex-row justify-between">
+      <div className="flex flex-row justify-between items-center">
         <div className="">
           <img src="/youngowner.png" className="" />
         </div>

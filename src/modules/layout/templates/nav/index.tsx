@@ -7,7 +7,9 @@ export default async function Nav() {
     <header className="m-8">
       <nav className="flex flex-row justify-between items-center">
         <div>
-          <h1 className="font-bold text-4xl">JC Blades</h1>
+          <LocalizedClientLink href="/">
+            <h1 className="font-bold text-4xl">JC Blades</h1>
+          </LocalizedClientLink>
         </div>
         <div className="flex flex-row justify-between gap-x-4 text-xl">
           <LocalizedClientLink href="/about">About</LocalizedClientLink>

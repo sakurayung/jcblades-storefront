@@ -115,3 +115,9 @@
     @apply text-[32px] leading-[44px] font-semibold;
   }
 }
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}

@@ -4,7 +4,6 @@ import { Text, clx } from "@medusajs/ui"
 import Image from "next/image"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import MedusaCTA from "@modules/layout/components/medusa-cta"
 
 export default async function Footer() {
   const { collections } = await listCollections({
@@ -29,7 +28,7 @@ export default async function Footer() {
               />
             </LocalizedClientLink>
           </div>
-          <div className="flex uppercase text-white text-5xl w-[541px] font-rubik text-3xl-footer ">
+          <div className="flex uppercase text-white text-5xl w-[541px] font-rubik text-3xl-footer ml-10 ">
             BLADES ARE JEWELRY FOR REAL MEN.
           </div>
           <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">

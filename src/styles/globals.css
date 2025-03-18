@@ -4,6 +4,21 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+  overflow-x: hidden; /* Hides horizontal scrollbar */
+  overflow-y: auto;   /* Enables vertical scrolling */
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 11 */
+}
+
+/* For WebKit browsers like Chrome, Safari */
+body::-webkit-scrollbar {
+  display: none;
+}
+
 @layer utilities {
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -114,4 +129,7 @@
   .text-3xl-semi {
     @apply text-[32px] leading-[44px] font-semibold;
   }
+}
+.floating-nav {
+  @apply bg-[#121212] rounded-lg border py-10;
 }

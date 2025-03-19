@@ -11,7 +11,8 @@ import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import ProductPrice from "../product-price"
 import MobileActions from "./mobile-actions"
-
+import LoginPrompt from "@modules/account/components/login-prompt"
+import { retrieveCustomer } from "@lib/data/customer"
 type ProductActionsProps = {
   product: HttpTypes.StoreProduct
   region: HttpTypes.StoreRegion
@@ -34,6 +35,25 @@ export default function ProductActions({
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
   const countryCode = useParams().countryCode as string
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true)
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const customer = await retrieveCustomer()
+        setIsLoggedIn(!!customer)
+      } catch (error) {
+        setIsLoggedIn(false)
+      } finally {
+        setIsCheckingAuth(false)
+      }
+    }
+    checkLoginStatus()
+  }, [])
+  
+
 
   // If there is only 1 variant, preselect the options
   useEffect(() => {
@@ -100,18 +120,27 @@ export default function ProductActions({
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
-    if (!selectedVariant?.id) return null
-
+    if (!selectedVariant?.id) return 
+    
+    if (!isLoggedIn) {
+      setShowLoginPrompt(true)
+      return
+    }
     setIsAdding(true)
-
+    
+    try {
     await addToCart({
       variantId: selectedVariant.id,
       quantity: 1,
       countryCode,
     })
-
+  } catch (error) {
+    console.error("Error adding to cart:", error)
+  } finally {
     setIsAdding(false)
   }
+  return null
+}
 
   return (
     <>
@@ -147,11 +176,12 @@ export default function ProductActions({
             !selectedVariant ||
             !!disabled ||
             isAdding ||
-            !isValidVariant
+            !isValidVariant ||
+            isCheckingAuth
           }
           variant="primary"
           className="w-full h-10"
-          isLoading={isAdding}
+          isLoading={isAdding || isCheckingAuth}
           data-testid="add-product-button"
         >
           {!selectedVariant && !options
@@ -160,6 +190,11 @@ export default function ProductActions({
             ? "Out of stock"
             : "Add to cart"}
         </Button>
+
+        <LoginPrompt
+          isOpen={showLoginPrompt}
+          onClose={() => setShowLoginPrompt(false)} // Hide modal when closed
+        />
         <MobileActions
           product={product}
           variant={selectedVariant}

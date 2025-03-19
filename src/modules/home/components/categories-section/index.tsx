@@ -8,11 +8,11 @@ const CategoriesSection = async () => {
   const productCategories = await listCategories()  
 
   return (
-    <div className="py-12 content-container bg-white">
+    <div className="py-12 content-container ">
       <h1 className="text-3xl-regular font-poppins text-black">Categories</h1>
-      <div className="grid grid-cols-2 mt-5">
+      <div className="grid grid-cols-2 mt-5 bg-gray-50">
         {productCategories.map((category) => (
-          <div key={category.id} className="h-[500px] border-r border-b border-gray-600 border-dashed flex flex-col justify-end pb-4 relative">
+          <div key={category.id} className="h-[500px] border-x border-y border-gray-600 border-dashed flex flex-col justify-end pb-4 relative">
             <div className="absolute inset-0 w-full h-full">
               {category.metadata?.image && typeof category.metadata.image === 'object' && 'url' in category.metadata.image ? (
                 <div className="relative w-full h-full">
@@ -22,7 +22,6 @@ const CategoriesSection = async () => {
                     width={1000}
                     height={1000}
                     className="object-cover object-center"
-                    sizes="(max-width: 768px) 100vw, 50vw"
                     priority
                   />
                 </div>

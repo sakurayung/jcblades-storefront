@@ -39,6 +39,7 @@ export default function ProductActions({
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isCheckingAuth, setIsCheckingAuth] = useState(true)
 
+  /* Check if the user is logged in */
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {

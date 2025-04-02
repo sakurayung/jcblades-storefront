@@ -6,9 +6,9 @@ type LoginPromptProps = {
   onClose: () => void
 }
 
-export default function LoginPrompt({ isOpen }: LoginPromptProps) {
+export default function LoginPrompt({ isOpen, onClose }: LoginPromptProps) {
   return (
-    <FocusModal open={isOpen}>
+    <FocusModal open={isOpen} onOpenChange={onClose}>
       <FocusModal.Content>
         <FocusModal.Header>
           
@@ -21,6 +21,9 @@ export default function LoginPrompt({ isOpen }: LoginPromptProps) {
             <Link href="/account">
               <button className="btn-primary">Login</button>
             </Link>
+            <button className="btn-secondary" onClick={onClose}>
+              Cancel
+            </button>
           </div>
         </div>
       </FocusModal.Content>

@@ -1,71 +1,77 @@
-import React, { useState} from "react";
-import axios from "axios";
+"use client"
+import { useState } from "react"
+import axios from "axios"
 
-interface UploadedFile {
-    filename: string;
-    url: string;
-    mimeType: string;
-}
+const FileUploadComponent = () => {
+  const [file, setFile] = useState<File | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [uploadedFileUrl, setUploadedFileUrl] = useState("")
 
-const ReceiptUploa = () => {
-    const [file, setFile] = useState<File | null>(null);
-    const [uploadFile, setUploadFile] = useState<UploadedFile | null>(null);
-    const [loading, setLoading] = useState(false); 
-    const [token, setToken] = useState<string | null>(null);
+  const handleFileChange = (e: any) => {
+    setFile(e.target.files[0])
+  }
 
+  const getFileBase64EncodedContent = (file: File) => {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = async () => {
+        // Extract the base64 content by splitting at the comma
+        const base64Content = (reader.result as string).split(",")[1]
+        resolve(base64Content)
+      }
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
 
-    const handleFileChange = (e) => {
-        setFile(e.target.files[0]);
-    };
+  const handleUpload = async () => {
+    if (!file) {
+      return
+    }
+    setUploading(true)
+    try {
+      const base64Content = await getFileBase64EncodedContent(file)
 
-    const handleUpload = async (e) => {
-        e.preventDefault();
-        if (!file) return;
+      const response = await axios.post("/api/uploads", {
+        files: [
+          {
+            filename: file.name,
+            mimeType: file.type,
+            content: base64Content,
+            access: "public",
+          },
+        ],
+      })
 
-        setLoading(true);
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
+      if (response.data && response.data.length > 0) {
+        setUploadedFileUrl(response.data[0].url)
+      }
+      setUploading(false)
+    } catch (error) {
+      console.error("Error uploading files", error)
+      setUploading(false)
+    }
+  }
 
-            const response = await axios.post('/api/upload/main', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            });
-            setUploadFile(response.data.files[0]);
-        } catch (error) {
-            console.error("Error uploading file:", error);
-        } finally {
-            setLoading(false);
-        }
-    }   
+  return (
+    <div>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload} disabled={!file || uploading}>
+        {uploading ? "Uploading...." : "Upload to s3"}
+      </button>
 
-    return (
+      {uploadedFileUrl && (
         <div>
-      <form onSubmit={handleUpload}>
-        <input 
-          type="file" 
-          onChange={handleFileChange}
-          accept="image/*,application/pdf"
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Uploading...' : 'Upload Receipt'}
-        </button>
-      </form>
-
-      {uploadFile && (
-        <div>
-          <p>Uploaded File: {uploadFile.filename}</p>
-          {/* Display the file based on type */}
-          {uploadFile.mimeType.includes('image') ? (
-            <img src={uploadFile.url} alt="Receipt" style={{ maxWidth: '300px' }} />
-          ) : (
-            <a href={uploadFile.url} target="_blank" rel="noopener noreferrer">
-              View Receipt
-            </a>
-          )}
+          <p>File uploaded successfully!</p>
+          <img
+            src={uploadedFileUrl}
+            alt="Uploaded File"
+            style={{ maxWidth: "300px" }}
+          />
         </div>
       )}
     </div>
-    )
-}
+  );
+};
+
+export default FileUploadComponent;

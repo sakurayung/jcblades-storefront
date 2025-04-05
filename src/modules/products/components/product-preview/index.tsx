@@ -34,10 +34,10 @@ export default async function ProductPreview({
         <Thumbnail
           thumbnail={product.thumbnail}
           images={product.images}
-          size="medium"
+          size="full"
           isFeatured={isFeatured}
         />
-        <div className="flex txt-compact-medium mt-4 items-center gap-x-24">
+        <div className="flex txt-compact-medium mt-4 justify-between">
           <Text className="text-ui-fg-subtle font-poppins text-black" data-testid="product-title">
             {product.title}
           </Text>

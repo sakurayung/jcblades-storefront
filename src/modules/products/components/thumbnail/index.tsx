@@ -34,7 +34,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           "aspect-[9/16]": !isFeatured && size !== "square",
           "aspect-[1/1]": size === "square",
           "w-[180px]": size === "small",
-          "w-[290px]": size === "medium",
+          "w-[330px]": size === "medium",
           "w-[440px]": size === "large",
           "w-full": size === "full",
         }
@@ -56,7 +56,7 @@ const ImageOrPlaceholder = ({
       alt="Thumbnail"
       className="absolute inset-0 object-cover object-center"
       draggable={false}
-      quality={50}
+      quality={85}
       sizes="(max-width: 576px) 280px, (max-width: 768px) 360px, (max-width: 992px) 480px, 800px"
       fill
     />

@@ -63,11 +63,6 @@ const FileUploadComponent = () => {
       {uploadedFileUrl && (
         <div>
           <p>File uploaded successfully!</p>
-          <img
-            src={uploadedFileUrl}
-            alt="Uploaded File"
-            style={{ maxWidth: "300px" }}
-          />
         </div>
       )}
     </div>

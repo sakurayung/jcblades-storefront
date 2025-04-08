@@ -11,40 +11,23 @@ const FileUploadComponent = () => {
     setFile(e.target.files[0])
   }
 
-  const getFileBase64EncodedContent = (file: File) => {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = async () => {
-        // Extract the base64 content by splitting at the comma
-        const base64Content = (reader.result as string).split(",")[1]
-        resolve(base64Content)
-      }
-      reader.onerror = reject
-      reader.readAsDataURL(file)
-    })
-  }
-
   const handleUpload = async () => {
     if (!file) {
       return
     }
     setUploading(true)
     try {
-      const base64Content = await getFileBase64EncodedContent(file)
-
-      const response = await axios.post("/api/uploads", {
-        files: [
-          {
-            filename: file.name,
-            mimeType: file.type,
-            content: base64Content,
-            access: "public",
-          },
-        ],
+      const formData = new FormData()
+      formData.append("files", file)
+      
+      const response = await axios.post("/api/uploads", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
       })
 
-      if (response.data && response.data.length > 0) {
-        setUploadedFileUrl(response.data[0].url)
+      if (response.data && response.data.uploads && response.data.uploads.length > 0) {
+        setUploadedFileUrl(response.data.uploads[0].url)
       }
       setUploading(false)
     } catch (error) {
@@ -57,12 +40,13 @@ const FileUploadComponent = () => {
     <div>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload} disabled={!file || uploading}>
-        {uploading ? "Uploading...." : "Upload to s3"}
+        {uploading ? "Uploading...." : "Upload receipt"}
       </button>
 
       {uploadedFileUrl && (
         <div>
           <p>File uploaded successfully!</p>
+          <img src={uploadedFileUrl} alt="Uploaded file" style={{ maxWidth: "300px" }} />
         </div>
       )}
     </div>

@@ -6,10 +6,11 @@ type LoginPromptProps = {
   onClose: () => void
 }
 
-export default function LoginPrompt({ isOpen }: LoginPromptProps) {
+export default function LoginPrompt({ isOpen, onClose }: LoginPromptProps) {
   return (
-    <FocusModal open={isOpen}>
+    <FocusModal open={isOpen} onOpenChange={onClose}>
       <FocusModal.Content>
+
         <FocusModal.Body className="flex items-center justify-center px-12">
           <div className="flex flex-col items-center gap-4 p-6">
             <p className="text-gray-700">

@@ -3,9 +3,9 @@ import { listCartPaymentMethods } from "@lib/data/payment"
 import { HttpTypes } from "@medusajs/types"
 import Addresses from "@modules/checkout/components/addresses"
 import Payment from "@modules/checkout/components/payment"
+import FileUploadComponent from "@modules/checkout/components/receipt-upload"
 import Review from "@modules/checkout/components/review"
 import Shipping from "@modules/checkout/components/shipping"
-
 export default async function CheckoutForm({
   cart,
   customer,
@@ -31,7 +31,8 @@ export default async function CheckoutForm({
       <Shipping cart={cart} availableShippingMethods={shippingMethods} />
 
       <Payment cart={cart} availablePaymentMethods={paymentMethods} />
-
+      <FileUploadComponent/>
+  
       <Review cart={cart} />
     </div>
   )

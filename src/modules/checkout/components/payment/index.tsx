@@ -1,6 +1,6 @@
 "use client"
 
-import { RadioGroup } from "@headlessui/react"
+import { Dialog, DialogPanel, DialogTitle, RadioGroup } from "@headlessui/react"
 import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
@@ -13,6 +13,7 @@ import { CardElement } from "@stripe/react-stripe-js"
 import { StripeCardElementOptions } from "@stripe/stripe-js"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
+import FileUploadComponent from "../receipt-upload"
 
 const Payment = ({
   cart,
@@ -32,6 +33,7 @@ const Payment = ({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
     activeSession?.provider_id ?? ""
   )
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -64,9 +66,6 @@ const Payment = ({
       },
     }
   }, [])
-
-
-  
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -149,7 +148,10 @@ const Payment = ({
             <>
               <RadioGroup
                 value={selectedPaymentMethod}
-                onChange={(value: string) => setSelectedPaymentMethod(value)}
+                onChange={(value: string) => {
+                  setSelectedPaymentMethod(value)
+                  setShowPaymentModal(true)
+                }}
               >
                 {availablePaymentMethods.map((paymentMethod) => {
                   return (
@@ -162,25 +164,38 @@ const Payment = ({
                   )
                 })}
               </RadioGroup>
-              {isStripe && stripeReady && (
-                <div className="mt-5 transition-all duration-150 ease-in-out">
-                  <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                    Enter your card details:
-                  </Text>
-
-                  <CardElement
-                    options={useOptions as StripeCardElementOptions}
-                    onChange={(e) => {
-                      setCardBrand(
-                        e.brand &&
-                          e.brand.charAt(0).toUpperCase() + e.brand.slice(1)
-                      )
-                      setError(e.error?.message || null)
-                      setCardComplete(e.complete)
-                    }}
-                  />
+              <Dialog
+                open={showPaymentModal}
+                onClose={() => setShowPaymentModal(false)}
+                className="relative z-10 focus:outline-none"
+              >
+                <div className="fixed inset-0 bg-black/30 z-10 w-screen overflow-y-auto">
+                  <div className="flex flex-col min-h-full items-center justify-center p-4">
+                    <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all border border-gray-200">
+                      <DialogTitle
+                        as="h3"
+                        className="text-lg font-medium leading-6 text-black"
+                      >
+                        Payment Details
+                      </DialogTitle>
+                      <div>{/**IMAGE OF THE ACCOUNT DETAILS HERE */}</div>
+                      <div className="mt-10">
+                        <FileUploadComponent />
+                      </div>
+                      <div className="flex justify-center">
+                      <Button
+                        onClick={() => setShowPaymentModal(false)}
+                        className="mt-10"
+                        variant="secondary"
+                      >
+                        Close
+                      </Button>
+                      </div>
+              
+                    </DialogPanel>
+                  </div>
                 </div>
-              )}
+              </Dialog>
             </>
           )}
 

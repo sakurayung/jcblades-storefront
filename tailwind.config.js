@@ -69,7 +69,7 @@ module.exports = {
           "Ubuntu",
           "sans-serif",
         ],
-
+        windSong: ["WindSong", "sans-serif"],
         poppins: ["Poppins", "sans-serif"],
         rubik: ["Rubik", "sans-serif"],
       },

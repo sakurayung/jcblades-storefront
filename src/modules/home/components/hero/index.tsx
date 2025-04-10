@@ -9,15 +9,7 @@ const Hero = () => {
   return (
     <div className="h-screen w-full">
       <div className="relative w-full h-full">
-        <Image
-          src="/landingpageimage.png"
-          fill
-          sizes="100vw"
-           className="object-cover object-center"
-          quality={100}
-          priority
-          alt="Knife Image"
-        />
+       
        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

@@ -1,4 +1,4 @@
-import { FocusModal } from "@medusajs/ui"
+import { FocusModal, Button } from "@medusajs/ui"
 import Link from "next/link"
 
 type LoginPromptProps = {
@@ -10,22 +10,19 @@ export default function LoginPrompt({ isOpen, onClose }: LoginPromptProps) {
   return (
     <FocusModal open={isOpen} onOpenChange={onClose}>
       <FocusModal.Content>
-        <FocusModal.Header>
-          
-        </FocusModal.Header>
-        <div className="flex flex-col items-center gap-4 p-6">
-          <p className="text-gray-700">
-            Please log in to add items to your cart
-          </p>
-          <div className="flex gap-2">
-            <Link href="/account">
-              <button className="btn-primary">Login</button>
-            </Link>
-            <button className="btn-secondary" onClick={onClose}>
-              Cancel
-            </button>
+
+        <FocusModal.Body className="flex items-center justify-center px-12">
+          <div className="flex flex-col items-center gap-4 p-6">
+            <p className="text-gray-700">
+              Please log in to add items to your cart
+            </p>
+            <div className="flex gap-2">
+              <Link href="/account">
+                <button className="btn-primary">Login</button>
+              </Link>
+            </div>
           </div>
-        </div>
+        </FocusModal.Body>
       </FocusModal.Content>
     </FocusModal>
   )

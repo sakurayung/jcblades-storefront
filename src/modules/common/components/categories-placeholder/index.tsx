@@ -8,17 +8,17 @@ const CategoriesPlaceHolder = async () => {
     const productCategories = await listCategories()  
 
   return (
-    <div className="grid grid-cols-2 mt-5 bg-gray-50 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 mt-5 gap-4 content-container mx-auto px-4">
         {productCategories.map((category) => (
           <LocalizedClientLink 
             key={category.id}
             href={`/categories/${category.handle}`}
-            className="group relative block h-[500px] transition-transform duration-300 hover:scale-[1.02]"
+            className="group relative block w-full aspect-square sm:h-[500px] transition-transform duration-300 hover:scale-[1.02]"
           >
-            <div className="h-full border-x border-y  flex flex-col justify-end pb-4 relative overflow-hidden">
+            <div className="h-full border flex flex-col justify-end pb-4 relative overflow-hidden">
               <div className="absolute inset-0 w-full h-full">
                 {category.metadata?.image && typeof category.metadata.image === 'object' && 'url' in category.metadata.image ? (
-                  <div className="relative w-full h-full">
+                  <div className="relative w-full h-full flex items-center justify-center">
                     <Image 
                       src={category.metadata.image.url as string}
                       alt={category.name}

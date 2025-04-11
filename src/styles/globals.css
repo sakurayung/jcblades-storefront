@@ -6,12 +6,13 @@
 @import "tailwindcss/utilities";
 
 html, body {
+  margin: 0;
+  padding: 0;
   background-color: #FFFFFF;
   overflow-x: hidden; /* Hides horizontal scrollbar */
   overflow-y: auto;   /* Enables vertical scrolling */
   scrollbar-width: none;  /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 11 */
-  background-color: #070707;
 }
 
 /* For WebKit browsers like Chrome, Safari */
@@ -132,12 +133,7 @@ body::-webkit-scrollbar {
 }
 
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+.floating-nav {
+  @apply bg-[#121212] rounded-lg border py-10;
 }
 
-.floating-nav {
-  @apply bg-black rounded-lg;
-}

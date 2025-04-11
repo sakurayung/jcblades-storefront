@@ -1,3 +1,4 @@
+const { size } = require("lodash")
 const checkEnvVariables = require("./check-env-variables")
 
 checkEnvVariables()
@@ -6,6 +7,12 @@ checkEnvVariables()
  * @type {import('next').NextConfig}
  */
 const nextConfig = {
+    serverExternalPackages: ["@medusajs/medusa"],
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb",
+    },
+  },
   reactStrictMode: true,
   logging: {
     fetches: {

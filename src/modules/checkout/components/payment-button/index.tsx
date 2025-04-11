@@ -40,6 +40,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
       )
     default:
+      console.log("Payment provider:", paymentSession?.provider_id)
       return <Button disabled>Select a payment method</Button>
   }
 }

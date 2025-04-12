@@ -40,6 +40,7 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
       )
     default:
+      console.log("Payment provider:", paymentSession?.provider_id)
       return <Button disabled>Select a payment method</Button>
   }
 }
@@ -141,7 +142,7 @@ const StripePaymentButton = ({
         isLoading={submitting}
         data-testid={dataTestId}
       >
-        Place order
+        Place Order
       </Button>
       <ErrorMessage
         error={errorMessage}
@@ -150,6 +151,8 @@ const StripePaymentButton = ({
     </>
   )
 }
+
+{/* This manual payment should wait for the upload receipt component and if ever click the place order it should validate the data */}
 
 const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   const [submitting, setSubmitting] = useState(false)
@@ -180,7 +183,7 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
         size="large"
         data-testid="submit-order-button"
       >
-        Place order
+        Place Order
       </Button>
       <ErrorMessage
         error={errorMessage}

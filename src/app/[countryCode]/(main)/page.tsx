@@ -6,6 +6,8 @@ import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 import AboutSection from "@modules/home/components/about-section"
 import CategoriesSection from "@modules/home/components/categories-section"
+import ReviewSection from "@modules/home/components/review-section"
+import PreFooterSection from "@modules/home/components/pre-footer"
 
 export const metadata: Metadata = {
   title: "JC Blades",
@@ -39,7 +41,9 @@ export default async function Home(props: {
           <FeaturedProducts collections={collections} region={region} />
         </ul>
       </div>
+      <ReviewSection/>
       <CategoriesSection/>
+      <PreFooterSection/>
     </>
   )
 }

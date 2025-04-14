@@ -15,11 +15,11 @@ const FileUploadComponent = () => {
   const [cartId, setCartId] = useState<string | null>(null)
   const [uploadedFileName, setUploadedFileName] = useState("")
   const [hasUploaded, setHasUploaded] = useState(false)
-  
+
   useEffect(() => {
     const fetchCartId = async () => {
       try {
-        const response = await fetch('/api/cart')
+        const response = await fetch("/api/cart")
         const data = await response.json()
         if (data.cartId) {
           setCartId(data.cartId)
@@ -30,10 +30,10 @@ const FileUploadComponent = () => {
         setError("Failed to retrieve cart information. Please try again.")
       }
     }
-    
+
     fetchCartId()
   }, [])
-  
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setError(null)
     const selectedFiles = Array.from(e.target.files || [])
@@ -45,9 +45,9 @@ const FileUploadComponent = () => {
     }
 
     // Validate file types and sizes
-    const invalidFile = selectedFiles.find(file => {
+    const invalidFile = selectedFiles.find((file) => {
       const acceptableTypes = ["image/jpeg", "image/png", "image/jpg"]
-      
+
       if (!acceptableTypes.includes(file.type)) {
         setError("Please upload valid image files (JPEG or PNG)")
         return true
@@ -57,22 +57,23 @@ const FileUploadComponent = () => {
         setError("File size exceeds 5MB")
         return true
       }
-      
+
       return false
     })
 
     if (invalidFile) return
 
     // Check for duplicate in selectedFiles filenames
-    const newFiles = selectedFiles.filter(newFile => 
-      !files.some(existingFile => existingFile.name === newFile.name)
+    const newFiles = selectedFiles.filter(
+      (newFile) =>
+        !files.some((existingFile) => existingFile.name === newFile.name)
     )
 
     if (newFiles.length < selectedFiles.length) {
       setError("Duplicate files detected and removed")
     }
 
-    setFiles(prevFiles => [...prevFiles, ...newFiles])
+    setFiles((prevFiles) => [...prevFiles, ...newFiles])
   }
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -91,7 +92,7 @@ const FileUploadComponent = () => {
     setError(null)
 
     const droppedFiles = Array.from(e.dataTransfer.files || [])
-    
+
     // Validate file count
     if (droppedFiles.length + files.length > 2) {
       setError("Maximum 2 files allowed")
@@ -99,9 +100,9 @@ const FileUploadComponent = () => {
     }
 
     // Validate file types and sizes
-    const invalidFile = droppedFiles.find(file => {
+    const invalidFile = droppedFiles.find((file) => {
       const acceptableTypes = ["image/jpeg", "image/png", "image/jpg"]
-      
+
       if (!acceptableTypes.includes(file.type)) {
         setError("Please upload valid image files (JPEG or PNG)")
         return true
@@ -111,22 +112,23 @@ const FileUploadComponent = () => {
         setError("File size exceeds 5MB")
         return true
       }
-      
+
       return false
     })
 
     if (invalidFile) return
 
     // Check for duplicate in droppedFiles filenames
-    const newFiles = droppedFiles.filter(newFile => 
-      !files.some(existingFile => existingFile.name === newFile.name)
+    const newFiles = droppedFiles.filter(
+      (newFile) =>
+        !files.some((existingFile) => existingFile.name === newFile.name)
     )
 
     if (newFiles.length < droppedFiles.length) {
       setError("Duplicate files detected and removed")
     }
 
-    setFiles(prevFiles => [...prevFiles, ...newFiles])
+    setFiles((prevFiles) => [...prevFiles, ...newFiles])
   }
 
   const triggerFileInput = () => {
@@ -134,60 +136,70 @@ const FileUploadComponent = () => {
   }
 
   const removeFile = (index: number) => {
-    setFiles(files => files.filter((_, i) => i !== index))
+    setFiles((files) => files.filter((_, i) => i !== index))
   }
 
   const handleUpload = async () => {
     if (files.length === 0) {
       return
     }
-    
+
     if (hasUploaded) {
-      setError("Receipt have already been uploaded. Please refresh to upload again.")
+      setError(
+        "Receipt have already been uploaded. Please refresh to upload again."
+      )
       return
     }
-    
+
     if (!cartId) {
       setError("Cart information is unavailable. Please try again.")
       return
     }
-    
+
     setUploading(true)
     setError(null)
     setUploadProgress(0)
-    
+
     try {
       const formData = new FormData()
-      
+
       // Append all files to the formData
-      files.forEach(file => {
+      files.forEach((file) => {
         formData.append("files", file)
       })
-      
+
       const response = await axios.post("/api/uploads", formData, {
         headers: {
-          "Content-Type": "multipart/form-data"
+          "Content-Type": "multipart/form-data",
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
-            const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            )
             setUploadProgress(progress)
           }
-        }
+        },
       })
-  
-      if (response.data && response.data.uploads && response.data.uploads.length > 0) {
+
+      if (
+        response.data &&
+        response.data.uploads &&
+        response.data.uploads.length > 0
+      ) {
         setUploadedFileUrl(response.data.uploads[0].url)
-        setUploadedFileName(files.length === 1 
-          ? files[0].name 
-          : `${files.length} files uploaded`
+        setUploadedFileName(
+          files.length === 1 ? files[0].name : `${files.length} files uploaded`
         )
         setHasUploaded(true)
         sessionStorage.setItem("receipt_uploaded", "true")
       }
       setUploading(false)
     } catch (error: any) {
-      setError(error.response?.data?.message || "Failed to upload files. Please try again.")
+      setError(
+        error.response?.data?.message ||
+          "Failed to upload files. Please try again."
+      )
       setUploading(false)
     }
   }
@@ -216,7 +228,9 @@ const FileUploadComponent = () => {
       {!uploadedFileUrl ? (
         <div className="p-5">
           <div className="mb-4">
-            <h3 className="text-base font-medium text-gray-900">Upload Receipt</h3>
+            <h3 className="text-base font-medium text-gray-900">
+              Upload Receipt
+            </h3>
             <p className="text-xs text-gray-500 mt-1">
               Please upload your receipt to verify your purchase (max 2 files)
             </p>
@@ -227,8 +241,8 @@ const FileUploadComponent = () => {
               isDragging
                 ? "border-blue-400 bg-blue-50"
                 : files.length > 0
-                  ? "border-gray-300 bg-gray-50"
-                  : "border-gray-200 hover:bg-gray-50 hover:border-gray-300"
+                ? "border-gray-300 bg-gray-50"
+                : "border-gray-200 hover:bg-gray-50 hover:border-gray-300"
             }`}
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
@@ -249,15 +263,32 @@ const FileUploadComponent = () => {
               {files.length > 0 ? (
                 <div className="w-full space-y-2">
                   {files.map((file, index) => (
-                    <div key={index} className="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200">
+                    <div
+                      key={index}
+                      className="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200"
+                    >
                       <div className="flex items-center space-x-3 flex-grow min-w-0">
                         <div className="bg-blue-100 p-2 rounded flex-shrink-0">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 text-blue-600"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
                           </svg>
                         </div>
                         <div className="overflow-hidden min-w-0 flex-grow">
-                          <p className="text-sm font-medium text-gray-900 truncate" title={file.name}>
+                          <p
+                            className="text-sm font-medium text-gray-900 truncate"
+                            title={file.name}
+                          >
                             {file.name}
                           </p>
                           <p className="text-xs text-gray-500">
@@ -265,24 +296,37 @@ const FileUploadComponent = () => {
                           </p>
                         </div>
                       </div>
-                      <button 
+                      <button
                         onClick={(e) => {
-                          e.stopPropagation();
-                          removeFile(index);
+                          e.stopPropagation()
+                          removeFile(index)
                         }}
                         className="p-1 rounded-full hover:bg-gray-100 flex-shrink-0 ml-2"
                       >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4 text-gray-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M6 18L18 6M6 6l12 12"
+                          />
                         </svg>
                       </button>
                     </div>
                   ))}
-                  
+
                   {files.length < 2 && (
                     <div className="text-center mt-2">
                       <p className="text-xs text-blue-600">
-                        Click to add {files.length === 1 ? "one more file" : "files"} (optional)
+                        Click to add{" "}
+                        {files.length === 1 ? "one more file" : "files"}{" "}
+                        (optional)
                       </p>
                     </div>
                   )}
@@ -307,7 +351,9 @@ const FileUploadComponent = () => {
                   </div>
                   <p className="text-sm text-gray-700">
                     Drag and drop or{" "}
-                    <span className="text-blue-600 font-medium">browse files</span>
+                    <span className="text-blue-600 font-medium">
+                      browse files
+                    </span>
                   </p>
                   <p className="text-xs text-gray-500">
                     JPEG or PNG (max 5MB, up to 2 files)
@@ -319,8 +365,19 @@ const FileUploadComponent = () => {
 
           {error && (
             <div className="mt-3 text-sm text-red-600 bg-red-50 p-3 rounded-md flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-red-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 text-red-500 mr-2 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <span>{error}</span>
             </div>
@@ -328,8 +385,19 @@ const FileUploadComponent = () => {
 
           {!cartId && !error && (
             <div className="mt-3 text-sm text-amber-600 bg-amber-50 p-3 rounded-md flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 text-amber-500 mr-2 flex-shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
               <span>Retrieving cart information...</span>
             </div>
@@ -338,7 +406,9 @@ const FileUploadComponent = () => {
           {uploading && (
             <div className="mt-4">
               <div className="flex justify-between items-center mb-1">
-                <span className="text-xs font-medium text-gray-700">Uploading</span>
+                <span className="text-xs font-medium text-gray-700">
+                  Uploading
+                </span>
                 <span className="text-xs text-gray-500">{uploadProgress}%</span>
               </div>
               <div className="w-full bg-gray-100 rounded-full h-1">
@@ -350,18 +420,22 @@ const FileUploadComponent = () => {
             </div>
           )}
 
-          <button 
-            onClick={handleUpload} 
+          <button
+            onClick={handleUpload}
             disabled={files.length === 0 || uploading || !cartId || hasUploaded}
             className={`w-full mt-4 px-4 py-2.5 text-sm font-medium rounded-md transition-all ${
               files.length === 0 || uploading || !cartId || hasUploaded
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed" 
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                 : "bg-blue-600 text-white hover:bg-blue-700"
             }`}
           >
-            {uploading ? "Uploading..." : hasUploaded ? "Already Uploaded" : "Upload Receipt"}
+            {uploading
+              ? "Uploading..."
+              : hasUploaded
+              ? "Already Uploaded"
+              : "Upload Receipt"}
           </button>
-          
+
           {hasUploaded && (
             <p className="mt-2 text-xs text-amber-600 text-center">
               Files have already been uploaded. Refresh to upload again.
@@ -388,29 +462,49 @@ const FileUploadComponent = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-base font-medium text-gray-900">Upload Complete</h3>
+              <h3 className="text-base font-medium text-gray-900">
+                Upload Complete
+              </h3>
             </div>
             <p className="text-xs text-gray-500 mt-1 ml-8">
-              {files.length === 1 ? "Your receipt has" : `${files.length} files have`} been successfully uploaded
+              {files.length === 1
+                ? "Your receipt has"
+                : `${files.length} files have`}{" "}
+              been successfully uploaded
             </p>
           </div>
-          
+
           <div className="bg-gray-50 border border-gray-100 rounded-lg p-4 mb-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3 overflow-hidden">
                 <div className="bg-blue-100 p-2 rounded flex-shrink-0">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4 text-blue-600"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
                   </svg>
                 </div>
                 <div className="overflow-hidden">
                   <p className="text-sm font-medium text-gray-900 truncate">
-                    {files.length === 1 ? files[0].name : `${files.length} files uploaded`}
+                    {files.length === 1
+                      ? files[0].name
+                      : `${files.length} files uploaded`}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {files.length === 1 ? (
-                      files[0].type.includes('pdf') ? 'PDF Document' : 'Image'
-                    ) : 'Multiple Files'}
+                    {files.length === 1
+                      ? files[0].type.includes("pdf")
+                        ? "PDF Document"
+                        : "Image"
+                      : "Multiple Files"}
                   </p>
                 </div>
               </div>

@@ -16,7 +16,7 @@ const AccountLayout: React.FC<AccountLayoutProps> = ({
 }) => {
   return (
     <div className="flex-1" data-testid="account-page">
-      <div className="flex-1 content-container h-full max-w-5xl bg-white flex flex-col">
+      <div className="flex-1 content-container h-full bg-white flex flex-col">
         <div className="">
           <div>{customer && <AccountNav customer={customer} />}</div>
           <div className="flex-1">{children}</div>

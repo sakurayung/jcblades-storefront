@@ -18,7 +18,7 @@ const Login = ({ setCurrentView }: Props) => {
 
   return (
     <div
-      className="flex flex-col gap-y-6 justify-center px-8 py-[89px]"
+      className="flex flex-col gap-y-6 border border-black rounded-3xl justify-center w-[582px] px-8 py-[89px]"
       data-testid="login-page"
     >
       <div>

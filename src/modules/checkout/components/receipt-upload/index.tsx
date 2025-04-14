@@ -21,7 +21,6 @@ const FileUploadComponent = () => {
       try {
         const response = await fetch('/api/cart')
         const data = await response.json()
-        
         if (data.cartId) {
           setCartId(data.cartId)
         } else {
@@ -64,7 +63,7 @@ const FileUploadComponent = () => {
 
     if (invalidFile) return
 
-    // Check for duplicate filenames
+    // Check for duplicate in selectedFiles filenames
     const newFiles = selectedFiles.filter(newFile => 
       !files.some(existingFile => existingFile.name === newFile.name)
     )
@@ -118,7 +117,7 @@ const FileUploadComponent = () => {
 
     if (invalidFile) return
 
-    // Check for duplicate filenames
+    // Check for duplicate in droppedFiles filenames
     const newFiles = droppedFiles.filter(newFile => 
       !files.some(existingFile => existingFile.name === newFile.name)
     )

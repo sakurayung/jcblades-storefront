@@ -50,22 +50,7 @@ const Payment = ({
   const paymentReady =
     (activeSession && cart?.shipping_methods.length !== 0) || paidByGiftcard
 
-  const useOptions: StripeCardElementOptions = useMemo(() => {
-    return {
-      style: {
-        base: {
-          fontFamily: "Inter, sans-serif",
-          color: "#424270",
-          "::placeholder": {
-            color: "rgb(107 114 128)",
-          },
-        },
-      },
-      classes: {
-        base: "pt-3 pb-1 block w-full h-11 px-4 mt-0 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out",
-      },
-    }
-  }, [])
+
 
   const createQueryString = useCallback(
     (name: string, value: string) => {

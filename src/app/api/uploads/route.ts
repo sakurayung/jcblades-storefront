@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     
     // Add cart_id to Medusa form data
     medusaFormData.append('cart_id', cartId);
-    console.log("Using cart_id from cookies:", cartId);
     
     // Copy files from incoming form data to new form data for Medusa
     const files = formData.getAll('files');

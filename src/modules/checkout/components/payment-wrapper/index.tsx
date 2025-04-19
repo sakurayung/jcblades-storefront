@@ -4,7 +4,8 @@ import { loadStripe } from "@stripe/stripe-js"
 import React from "react"
 import StripeWrapper from "./stripe-wrapper"
 import { HttpTypes } from "@medusajs/types"
-import { isStripe } from "@lib/constants"
+import { isPaypal, isStripe } from "@lib/constants"
+import PayPalWrapper from "./paypal-wrapper"
 
 type PaymentWrapperProps = {
   cart: HttpTypes.StoreCart
@@ -12,6 +13,7 @@ type PaymentWrapperProps = {
 }
 
 const stripeKey = process.env.NEXT_PUBLIC_STRIPE_KEY
+const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID
 const stripePromise = stripeKey ? loadStripe(stripeKey) : null
 
 const PaymentWrapper: React.FC<PaymentWrapperProps> = ({ cart, children }) => {
@@ -32,6 +34,21 @@ const PaymentWrapper: React.FC<PaymentWrapperProps> = ({ cart, children }) => {
       >
         {children}
       </StripeWrapper>
+    )
+  }
+
+  if (
+    isPaypal(paymentSession?.provider_id) &&
+    paymentSession &&
+    paypalClientId
+  ) {
+    return (
+      <PayPalWrapper
+        paymentSession={paymentSession}
+        paypalClientId={paypalClientId}
+      >
+        {children}
+      </PayPalWrapper>
     )
   }
 

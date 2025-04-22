@@ -53,6 +53,12 @@ const NavItems = ({ isDropdown }: NavContProps) => {
           {item === "Blade Types" ? (
             <span
               ref={buttonRef}
+              className={`font-poppins text-[14px] w-full font-medium text-md cursor-pointer
+                ${isDropdown ? 'text-[#919090] after:bg-white' : 'text-[#919090] after:bg-white'} after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full 
+                            after:origin-bottom-right after:scale-x-0 
+                            after:transition-transform after:duration-300 
+                            after:ease-[cubic-bezier(0.65_0.05_0.36_1)] 
+                            hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-white`}
               className={`font-poppins  w-full font-regular text-sm cursor-pointer
                 ${isDropdown ? 'text-[#52525b] after:bg-black' : 'text-[#000000] after:bg-black'} after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full 
                             after:origin-bottom-right after:scale-x-0 
@@ -69,6 +75,12 @@ const NavItems = ({ isDropdown }: NavContProps) => {
           ) : (
             <LocalizedClientLink
               href={`/${item.toLowerCase()}`}
+              className={`font-poppins text-[14px] font-medium text-md cursor-pointer flex flex-row gap-4 items-center justify-center
+                ${isDropdown ? 'text-[#919090] after:bg-white' : 'text-[#919090] after:bg-white'} after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full 
+                            after:origin-bottom-right after:scale-x-0 
+                            after:transition-transform after:duration-300 
+                            after:ease-[cubic-bezier(0.65_0.05_0.36_1)] 
+                            hover:after:origin-bottom-left hover:after:scale-x-100 hover:text-white`}
               className={`font-poppins text-[14px] font-regular text-sm cursor-pointer flex flex-row gap-4 items-center justify-center
                 ${isDropdown ? 'text-[#53535b] after:bg-black' : 'text-[#000000] after:bg-black'} after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full 
                             after:origin-bottom-right after:scale-x-0 
@@ -83,6 +95,11 @@ const NavItems = ({ isDropdown }: NavContProps) => {
       ))}
 
       {dropdownOpen && (
+        <div ref={dropdownRef} className="absolute  left-[-20px] max-x-full p-2 top-8 w-60 border-[0.01px] border-[#141414] bg-[#070707] text-[#919090] shadow-lg z-30">
+          {bladeTypes.map((type) => (
+            <span
+              key={type}
+              className="block px-8 py-2 font-poppins uppercase cursor-pointer text-[12px] text-center hover:text-white transition duration-200"
         <div ref={dropdownRef} className="absolute left-[-20px] max-x-full p-2 top-8 w-60 border-[0.01px] border-[#f5f5f5] bg-[#f5f5f5] text-[#52525b] shadow-lg z-30">
           {bladeTypes.map((type) => (
             <span

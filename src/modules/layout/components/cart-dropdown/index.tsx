@@ -87,6 +87,10 @@ const CartDropdown = ({
             className="hover:text-ui-fg-base flex "
             href="/cart"
             data-testid="nav-cart-link"
+
+          > <LuShoppingCart className={`cursor-pointer w-[18px] h-[18px] text-white transition-transform duration-500 hover:scale-125 `}/>
+          <div className="absolute top-[-12px] right-[-10px] bg-white w-5 px-1 rounded-full text-black text-[10px] ">
+
           > <LuShoppingCart className={`cursor-pointer w-[18px] h-[18px] text-black transition-transform duration-500 hover:scale-125 `}/>
           <div className="absolute top-[-12px] right-[-10px] bg-black w-5 px-1 rounded-full text-white text-[10px] ">
           {` ${totalItems}`}
@@ -105,7 +109,10 @@ const CartDropdown = ({
         >
           <PopoverPanel
             static
+            className="hidden small:block absolute top-8 right-0 bg-[#070707] border-[0.01px] border-[#141414] text-[#b3b3b3] w-[420px] text-ui-fg-base"
+
             className="hidden small:block absolute top-8 right-0 bg-[#f5f5f5] shadow-lg text-[#b3b3b3] w-[420px] text-ui-fg-base"
+
             data-testid="nav-cart-dropdown"
           >
             <div className="p-4 flex items-center justify-center">
@@ -199,6 +206,7 @@ const CartDropdown = ({
                   </div>
                   <LocalizedClientLink href="/cart" passHref>
                     <Button
+                      className="w-full bg-white text-black hover:bg-white rounded-none"
                       className="w-full bg-black text-white hover:bg-black duration-900 rounded-none"
                       size="large"
                       data-testid="go-to-cart-button"

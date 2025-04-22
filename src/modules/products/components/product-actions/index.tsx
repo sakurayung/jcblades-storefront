@@ -167,9 +167,10 @@ export default function ProductActions({
             </div>
           )}
         </div>
-
+          <div className="flex flex-col items-start gap-4">
+            
         <ProductPrice product={product} variant={selectedVariant} />
-
+          
         <Button
           onClick={handleAddToCart}
           disabled={
@@ -181,7 +182,7 @@ export default function ProductActions({
             isCheckingAuth
           }
           variant="primary"
-          className="w-full h-10"
+          className="w-full h-10 hover:bg-black bg-black "
           isLoading={isAdding || isCheckingAuth}
           data-testid="add-product-button"
         >
@@ -191,7 +192,9 @@ export default function ProductActions({
             ? "Out of stock"
             : "Add to cart"}
         </Button>
+        
 
+          </div>
         <LoginPrompt
           isOpen={showLoginPrompt}
           onClose={() => setShowLoginPrompt(false)} // Hide modal when closed

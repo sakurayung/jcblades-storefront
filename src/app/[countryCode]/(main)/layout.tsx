@@ -29,25 +29,7 @@ export default async function PageLayout(props: { children: React.ReactNode }) {
 
   return (
     <>
-    <Script id="navbar-scroll-script" strategy="afterInteractive">
-  {`
-    let lastScrollY = window.scrollY;
-    const navbar = document.getElementById("main-navbar");
-
-    if (navbar) {
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > lastScrollY) {
-          // Scrolling Down
-          navbar.style.transform = "translateY(-100%)";
-        } else {
-          // Scrolling Up
-          navbar.style.transform = "translateY(0)";
-        }
-        lastScrollY = window.scrollY;
-      });
-    }
-  `}
-</Script>
+  
       <Nav />
       {customer && cart && (
         <CartMismatchBanner customer={customer} cart={cart} />

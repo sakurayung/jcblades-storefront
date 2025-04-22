@@ -9,7 +9,7 @@ const RegionSelectionDropdown = ({ regions }: { regions: HttpTypes.StoreRegion[]
 
   return (
                 <div
-                        className="flex flex-row border-b-[0.01px] border-b-[#919090] hover:text-white hover:border-white items-center gap-1 text-[#919090] "
+                        className="flex flex-row border-b-[0.01px] border-b-[#52525b] hover:text-black hover:border-black items-center gap-1 text-[#52525b] "
                         onMouseEnter={toggleState.open}
                         onMouseLeave={toggleState.close}
                       >

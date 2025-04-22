@@ -17,7 +17,9 @@ export default async function Nav() {
   return (
     <div className="fixed top-0 inset-x-0 z-50 group">
       <header id="main-navbar" className="relative  mx-auto border-b duration-200 bg-[#070707] border-[#141414] py-8">
-        <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
+    <div className="top-0 relative group bg-[#ffffff]">
+     <header id="main-navbar" className="relative top-0 inset-x-0 z-50 mx-auto border-b duration-200 bg-[#ffffff] py-6 border-[#e5e7eb]">
+       <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
         <div className="flex-1 basis-0 h-full flex items-center">
             <div className="flex h-full items-center justify-center">
               <LocalizedClientLink href={'/'} className="font-aquireOne cursor-pointer text-md lg:text-xl">
@@ -26,6 +28,10 @@ export default async function Nav() {
                   alt="Navbar Logo"
                   width={150}
                   height={150}
+                  src="/logo/jcblades.png"
+                  alt="Navbar Logo"
+                  width={120}
+                  height={120}
                 />
               </LocalizedClientLink>
             </div>
@@ -45,6 +51,7 @@ export default async function Nav() {
                 data-testid="nav-account-link"
               >
                  <LuUserRound className="cursor-pointer text-white w-[18px] h-[18px] transition-transform duration-500 hover:scale-125 " />
+                 <LuUserRound className="cursor-pointer text-[#000000] w-[18px] h-[18px] transition-transform duration-500 hover:scale-125 " />
               </LocalizedClientLink>
             </div>
             <Suspense

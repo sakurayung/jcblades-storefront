@@ -9,7 +9,7 @@ const Hero = () => {
   return (
     <div className="h-screen w-full">
       <div className="relative w-full h-full">
-        <Image
+        {/* <Image
           src="/landingpageimage.png"
           fill
           sizes="100vw"
@@ -17,12 +17,12 @@ const Hero = () => {
           quality={100}
           priority
           alt="Knife Image"
-        />
+        /> */}
        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="absolute top-1/3 left-[10%] text-white text-[7vw] z-10 uppercase font-poppins font-semibold text-center whitespace-nowrap tracking-tighter"
+          className="absolute top-1/3 left-[10%] text-black text-[7vw] z-10 uppercase font-poppins font-semibold text-center whitespace-nowrap tracking-tighter"
         >
           <h1>Precision In Every Blade</h1>
         </motion.div>

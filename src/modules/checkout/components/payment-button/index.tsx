@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react"
 import ErrorMessage from "../error-message"
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
 import { useRouter } from "next/router"
+import { Spinner } from "@medusajs/icons"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -40,10 +41,10 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     case isPaypal(paymentSession?.provider_id):
       return (
         <PayPalPaymentButton
-          notReady={notReady}
-          cart={cart}
-          data-testid={dataTestId}
-        />
+        notReady={notReady}
+        cart={cart}
+        data-testid={dataTestId}
+      />
       )
     case isManual(paymentSession?.provider_id):
       return (
@@ -216,10 +217,9 @@ const PayPalPaymentButton = ({
 }) => {
   const [submitting, setSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [{ isPending, isRejected }] = usePayPalScriptReducer()
-  // Add a state to track if payment is approved
-  const [isApproved, setIsApproved] = useState(false)
-
+  const [paymentProcessed, setPaymentProcessed] = useState(false)
+  const [paymentData, setPaymentData] = useState<any>(null)
+  const [scriptLoaded, setScriptLoaded] = useState(false)
 
   const onPaymentCompleted = async () => {
     await placeOrder()
@@ -235,139 +235,91 @@ const PayPalPaymentButton = ({
     (s) => s.status === "pending"
   )
 
-  // Check URL for PayPal return parameters
-  useEffect(() => {
-    // Check if we have approval parameters in the URL
-    const searchParams = new URLSearchParams(window.location.search)
-    const token = searchParams.get("token") // PayPal order ID
-    const paymentId = searchParams.get("paymentId")
+  const handlePayment = async (
+    //@ts-ignore
+    data: OnApproveData,
+    //@ts-ignore
+    actions: OnApproveActions
+  ) => {
+    setSubmitting(true)
+    actions?.order
+      ?.authorize()
+      .then((authorization: { status: string }) => {
+        if (authorization.status !== "COMPLETED") {
+          setErrorMessage(`An error occurred, status: ${authorization.status}`)
+          setSubmitting(false)
+          return
+        }
+        setPaymentProcessed(true)
+        setPaymentData(data)
+        setSubmitting(false)
+      })
+      .catch(() => {
+        setErrorMessage(`An unknown error occurred, please try again.`)
+        setSubmitting(false)
+      })
+  }
 
-    if (token && session?.data.id === token) {
-      // We've returned from PayPal with approval
-      console.log("Returned from PayPal with approval", token)
-      setIsApproved(true)
+  const handleFinalizeOrder = () => {
+    setSubmitting(true)
+    onPaymentCompleted()
+  }
+
+  // Safe way to check if we're in a PayPalScriptProvider context
+  let paypalState;
+  try {
+    const [state] = usePayPalScriptReducer();
+    paypalState = state;
+    if (!scriptLoaded && !state.isPending) {
+      setScriptLoaded(true);
     }
-  }, [session])
-
-  if (notReady) {
+  } catch (error) {
+    // If we're here, we're not in a PayPalScriptProvider context
     return (
-      <Button
-        disabled
-        size="large"
-        data-testid={dataTestId || "paypal-payment-button"}
-      >
-        Place Order
-      </Button>
-    )
-  }
-
-  if (isPending) {
-    return (
-      <Button
-        disabled
-        isLoading
-        size="large"
-        data-testid={dataTestId || "paypal-payment-button-loading"}
-      >
-        Loading PayPal...
-      </Button>
-    )
-  }
-
-  if (isRejected) {
-    return (
-      <>
-        <Button
-          disabled
-          size="large"
-          data-testid={dataTestId || "paypal-payment-button-error"}
-        >
-          PayPal unavailable
-        </Button>
-        <ErrorMessage
-          error="Could not load PayPal. Please try again or select another payment method."
-          data-testid="paypal-load-error-message"
-        />
-      </>
-    )
-  }
-
-  // Show "Place Order" button if payment is approved
-  if (isApproved) {
-    return (
-      <>
-        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-md">
-          <p className="text-green-700 font-medium">
-            PayPal payment approved! Click below to complete your order.
-          </p>
+      <div className="flex flex-col gap-4">
+        <div className="text-red-500 text-sm">
+          PayPal integration error: PayPalScriptProvider not found
         </div>
         <Button
-          onClick={onPaymentCompleted}
-          isLoading={submitting}
+          onClick={handleFinalizeOrder}
           size="large"
-          data-testid={dataTestId || "paypal-complete-order-button"}
+          isLoading={submitting}
+          data-testid="paypal-fallback-button"
         >
-          Complete Order
+          Place Order
         </Button>
         <ErrorMessage
           error={errorMessage}
           data-testid="paypal-payment-error-message"
         />
-      </>
-    )
+      </div>
+    );
   }
 
-  // Otherwise show PayPal buttons
+  if (paypalState?.isPending) {
+    return <Spinner />
+  }
+
   return (
     <>
-      <div className="w-full">
+      {!paymentProcessed ? (
         <PayPalButtons
-          style={{
-            layout: "vertical",
-            shape: "rect",
-            label: "pay",
-            height: 48,
-          }}
-          disabled={submitting}
-          forceReRender={[cart.id, cart.total, session?.data.id]}
-          createOrder={() => {
-            // Return the existing order ID
-            return Promise.resolve(session?.data.id || "")
-          }}
-          onApprove={async (data, actions) => {
-            setSubmitting(true)
-
-            // Get redirect URL from session data if available
-            const approvalUrl =
-              session?.data?.approval_url ||
-              session?.data?.links?.find((link) => link.rel === "approve")?.href
-
-            if (approvalUrl) {
-              // Redirect to PayPal for approval
-              window.location.href = approvalUrl
-              return
-            }
-
-            // If no redirect URL (unusual), try to complete order directly
-            try {
-              setIsApproved(true)
-            } catch (error) {
-              setErrorMessage(
-                error instanceof Error ? error.message : "Payment failed"
-              )
-              setSubmitting(false)
-            }
-          }}
-          onError={(err) => {
-            setErrorMessage("PayPal encountered an error. Please try again.")
-            console.error("PayPal error:", err)
-          }}
-          onCancel={() => {
-            setErrorMessage("Payment cancelled. Please try again.")
-          }}
-          data-testid={dataTestId || "paypal-button"}
+          style={{ layout: "horizontal" }}
+          createOrder={async () => session?.data.id as string}
+          onApprove={handlePayment}
+          disabled={notReady || submitting || paypalState?.isPending}
+          data-testid={dataTestId}
         />
-      </div>
+      ) : (
+        <Button
+          onClick={handleFinalizeOrder}
+          size="large"
+          isLoading={submitting}
+          data-testid="paypal-finalize-order-button"
+        >
+          Finalize Order
+        </Button>
+      )}
       <ErrorMessage
         error={errorMessage}
         data-testid="paypal-payment-error-message"

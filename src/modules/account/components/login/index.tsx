@@ -39,7 +39,7 @@ const Login = ({ setCurrentView }: Props) => {
         <div className="flex flex-col gap-y-5">
           <Input
             label="Email"
-            name="Email"
+            name="email"
             type="email"
             title="Enter your email"
             autoComplete="email"
@@ -48,7 +48,7 @@ const Login = ({ setCurrentView }: Props) => {
           />
           <Input
             label="Password"
-            name="Password"
+            name="password"
             type="password"
             autoComplete="current-password"
             required

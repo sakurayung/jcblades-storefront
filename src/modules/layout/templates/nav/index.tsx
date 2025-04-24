@@ -13,7 +13,7 @@ export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)
 
   return (
-    <div className="fixed top-0 inset-x-0 z-50 group">
+    <div className="relative top-0 inset-x-0 z-50 group">
       <header id="main-navbar" className="relative mx-auto border-b duration-200 bg-[#ffffff] py-6 border-[#e5e7eb]">
         <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
           <div className="flex-1 basis-0 h-full flex items-center">

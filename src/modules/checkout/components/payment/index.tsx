@@ -176,7 +176,14 @@ const Payment = ({
                       >
                         Payment Details
                       </DialogTitle>
-                      <div>{/**IMAGE OF THE ACCOUNT DETAILS HERE */}</div>
+                      <div className="flex-col">
+                        {/**IMAGE OF THE ACCOUNT DETAILS HERE */}
+                        <Text>Account Details</Text>
+                        <p>
+                          Gcash Number: 09519400471 J***** P******* S.
+                          Maya Number: 09859601354 J** C***** B.
+                        </p>
+                      </div>
                       <div className="mt-10">
                         <FileUploadComponent />
                       </div>

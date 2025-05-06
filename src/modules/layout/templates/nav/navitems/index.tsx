@@ -1,34 +1,31 @@
 "use client"
-import { useState, useEffect, useRef } from "react"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { IoIosArrowDown } from "react-icons/io"
-import { IoIosArrowUp } from "react-icons/io"
 
-interface NavContProps {
-  isDropdown: boolean
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import React from "react"
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
+
+type Category = {
+  name: string
+  handle: string
+  id: string
+  parent_category?: any
+  category_children?: Category[]
 }
 
-const navbarItems = ["Blade Types", "About", "Inspiration", "Store"]
-const bladeTypes = [
-  "Hunting Knife",
-  "Bowie Knife",
-  "Dagger",
-  "Machete",
-  "Katana",
-  "Dirk",
-  "Cleaver",
-  "Karambit",
-  "Gladius",
-  "Tanto",
-]
+export default function NavItemsClient({
+  isDropdown,
+  bladeTypes,
+  navbarItems,
+}: {
+  isDropdown: boolean
+  bladeTypes: Category[]
+  navbarItems: string[]
+}) {
+  const [dropdownOpen, setDropdownOpen] = React.useState(false)
+  const dropdownRef = React.useRef<HTMLDivElement>(null)
+  const buttonRef = React.useRef<HTMLSpanElement>(null)
 
-const NavItems = ({ isDropdown }: NavContProps) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLSpanElement>(null)
-
-  // Close the dropdown when clicking outside
-  useEffect(() => {
+  React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
@@ -41,7 +38,6 @@ const NavItems = ({ isDropdown }: NavContProps) => {
     }
 
     document.addEventListener("mousedown", handleClickOutside)
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
@@ -97,22 +93,23 @@ const NavItems = ({ isDropdown }: NavContProps) => {
             ref={dropdownRef}
             className="absolute left-[-20px] max-x-full p-2 top-8 w-60 border-[0.01px] border-[#f5f5f5] bg-[#f5f5f5] text-[#52525b] shadow-lg z-30"
           >
-            {bladeTypes.map((type) => (
-              <span
-                key={type}
-                className="block px-8 py-2 font-poppins uppercase cursor-pointer text-[12px]  hover:text-black transition duration-200"
-                onClick={() => {
-                  setDropdownOpen(false)
-                }}
+            {bladeTypes.length > 0 ? bladeTypes.map((type) => (
+              <LocalizedClientLink
+                key={type.id}
+                href={`/categories/${type.handle}`}
+                className="block px-8 py-2 font-poppins uppercase cursor-pointer text-[12px] hover:text-black transition duration-200"
+                onClick={() => setDropdownOpen(false)}
               >
-                {type}
+                {type.name}
+              </LocalizedClientLink>
+            )): (
+              <span className="block px-8 py-2 font-poppins uppercase cursor-pointer text-[12px] hover:text-black transition duration-200">
+                No blade types available
               </span>
-            ))}
+            )}
           </div>
         )}
       </ul>
     </span>
   )
 }
-
-export default NavItems

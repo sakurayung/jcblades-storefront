@@ -7581,6 +7581,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lucide-react@npm:^0.507.0":
+  version: 0.507.0
+  resolution: "lucide-react@npm:0.507.0"
+  peerDependencies:
+    react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 3777fda76b10fd20b241e969e6029df3825768aadd2f104c28d988f0acf8cffafb893a686cc3f39a7934e10bd04d8d7f56cb900cd972c7c2ff1cf4251313ce26
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^3.0.2, make-dir@npm:^3.1.0":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
@@ -7658,6 +7667,7 @@ __metadata:
     framer-motion: ^11.15.0
     gsap: ^3.12.7
     lodash: ^4.17.21
+    lucide-react: ^0.507.0
     next: latest
     pg: ^8.11.3
     prettier: ^2.8.8

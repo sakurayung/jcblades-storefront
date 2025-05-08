@@ -7,7 +7,7 @@ import { Button } from "@medusajs/ui"
 import Divider from "@modules/common/components/divider"
 import OptionSelect from "@modules/products/components/product-actions/option-select"
 import { isEqual } from "lodash"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import ProductPrice from "../product-price"
 import MobileActions from "./mobile-actions"
@@ -142,7 +142,31 @@ export default function ProductActions({
   }
   return null
 }
+const router = useRouter()
+const handleBuyNow = async () => {
+  if (!selectedVariant?.id) return
+  
+  if (!isLoggedIn) {
+    setShowLoginPrompt(true)
+    return
+  }
 
+  setIsAdding(true)
+  try {
+    await addToCart({
+      variantId: selectedVariant.id,
+      quantity: 1,
+      countryCode,
+    })
+
+    // Redirect to checkout after successful add
+    router.push("/checkout")
+  } catch (error) {
+    console.error("Error during Buy Now:", error)
+  } finally {
+    setIsAdding(false)
+  }
+}
   return (
     <>
       <div className="flex flex-col gap-y-2" ref={actionsRef}>
@@ -182,7 +206,7 @@ export default function ProductActions({
             isCheckingAuth
           }
           variant="primary"
-          className="w-full h-10 hover:bg-black bg-black "
+          className="w-full h-10 hover:bg-[#212427] bg-[#212427] rounded-none hover:scale-[1.005] duration-500"
           isLoading={isAdding || isCheckingAuth}
           data-testid="add-product-button"
         >
@@ -191,6 +215,27 @@ export default function ProductActions({
             : !inStock || !isValidVariant
             ? "Out of stock"
             : "Add to cart"}
+        </Button>
+        <Button
+          onClick={handleBuyNow}
+          disabled={
+            !inStock ||
+            !selectedVariant ||
+            !!disabled ||
+            isAdding ||
+            !isValidVariant ||
+            isCheckingAuth
+          }
+          variant="primary"
+          className="w-full h-10 hover:bg-[#ffffff] bg-[#ffffff] text-black hover:text-black rounded-none hover:scale-[1.005] duration-500"
+          isLoading={isAdding || isCheckingAuth}
+          data-testid="add-product-button"
+        >
+          {!selectedVariant && !options
+            ? "Select variant"
+            : !inStock || !isValidVariant
+            ? "Out of stock"
+            : "Buy Now"}
         </Button>
         
 

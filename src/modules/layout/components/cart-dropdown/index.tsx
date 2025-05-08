@@ -89,9 +89,7 @@ const CartDropdown = ({
             data-testid="nav-cart-link"
           >
             {" "}
-            <LuShoppingCart
-              className={`cursor-pointer w-[18px] h-[18px] text-white transition-transform duration-500 hover:scale-125 `}
-            />
+            
             <div className="absolute top-[-12px] right-[-10px] bg-white w-5 px-1 rounded-full text-black text-[10px] ">
               {" "}
             </div>

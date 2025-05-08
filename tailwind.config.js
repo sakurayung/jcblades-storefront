@@ -72,6 +72,8 @@ module.exports = {
 
         poppins: ["Poppins", "sans-serif"],
         rubik: ["Rubik", "sans-serif"],
+        spaceGrotesk: ["Space Grotesk", "sans-serif"],
+        kelystone: ["Kelystone", "sans-serif"], 
       },
       keyframes: {
         ring: {

@@ -36,8 +36,11 @@ export default async function ProductPreview({
           images={product.images}
           size="full"
           isFeatured={isFeatured}
+          className=" border-[0.5px] border-black "
+
+
         />
-        <div className="txt-compact-medium mt-4 justify-between">
+        <div className="txt-compact-medium mt-4 justify-between flex flex-row">
           <Text className="text-ui-fg-subtle font-poppins text-black text-sm sm:text-base md:text-lg truncate " data-testid="product-title">
             {product.title}
           </Text>

@@ -8,6 +8,7 @@ import AboutSection from "@modules/home/components/about-section"
 import CategoriesSection from "@modules/home/components/categories-section"
 import ReviewSection from "@modules/home/components/review-section"
 import PreFooterSection from "@modules/home/components/pre-footer"
+import HeroSection from "@modules/home/components/pre-footer"
 
 export const metadata: Metadata = {
   title: "JC Blades",
@@ -35,15 +36,14 @@ export default async function Home(props: {
   return (
     <>
       <Hero />
-       <AboutSection/>
-      <div className="py-12">
+      <div className="">
         <ul className="flex flex-col gap-x-6">
           <FeaturedProducts collections={collections} region={region} />
         </ul>
       </div>
       <ReviewSection/>
+      <AboutSection/>
       <CategoriesSection/>
-      <PreFooterSection/>
     </>
   )
 }

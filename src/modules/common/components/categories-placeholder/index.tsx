@@ -15,7 +15,7 @@ const CategoriesPlaceHolder = async () => {
             href={`/categories/${category.handle}`}
             className="group relative block w-full aspect-square sm:h-[500px] transition-transform duration-300 hover:scale-[1.02]"
           >
-            <div className="h-full border flex flex-col justify-end pb-4 relative overflow-hidden">
+            <div className="h-full  flex flex-col justify-end pb-4 relative overflow-hidden border-[1px] border-[#121214]">
               <div className="absolute inset-0 w-full h-full">
                 {category.metadata?.image && typeof category.metadata.image === 'object' && 'url' in category.metadata.image ? (
                   <div className="relative w-full h-full flex items-center justify-center">
@@ -24,10 +24,10 @@ const CategoriesPlaceHolder = async () => {
                       alt={category.name}
                       width={1000}
                       height={1000}
-                      className="object-cover object-center transition-transform duration-300 group-hover:scale-110"
+                      className="object-cover object-center transition-transform duration-300 "
                       priority
                     />
-                    <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-20"/>
+                    <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 "/>
                   </div>
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -35,7 +35,7 @@ const CategoriesPlaceHolder = async () => {
                   </div>
                 )}
               </div>
-              <span className="ml-3 font-poppins relative z-10 text-black group-hover:text-white transition-colors duration-300">
+              <span className="ml-3 font-poppins relative z-10 text-black  group-hover:text-black transition-colors duration-300">
                 {category.name}
               </span>
             </div>

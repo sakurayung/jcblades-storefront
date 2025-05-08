@@ -104,7 +104,7 @@ export default async function Footer() {
             />
           </Link>
         </div>
-        <hr className="w-full bg-slate-900 "></hr>
+        <hr className="w-full bg-slate-900 opacity-20"></hr>
         <div className="flex flex-col justify-between items-end mt-3">
           <div className="flex flex-col text-right">
             <Text className="font-poppins font-bold text-base">
@@ -147,7 +147,7 @@ export default async function Footer() {
               />
             </div>
           </div>
-          <hr className="w-full bg-slate-900 "></hr>
+          <hr className="w-full bg-slate-900 opacity-20"></hr>
         </div>
       </div>
     </footer>

@@ -13,7 +13,7 @@ export default async function Footer() {
   const productCategories = await listCategories()
 
   return (
-    <footer className="w-full bg-[#212427] text-[#FBFEFC]">
+    <footer className="w-full bg-[#0C1214] text-[#FBFEFC]">
       <div className="content-container w-full py-8">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-x-8">
@@ -33,39 +33,19 @@ export default async function Footer() {
           </div>
           <div className="grid grid-cols-4 gap-x-8 font-poppins">
             <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
+              <span className="font-bold text-base mb-3">Orders</span>
               <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
+                <Link href="/">Orders and Delivery</Link>
+                <Link href="/">Returns and Refund</Link>
+                <Link href="/">Payment and Pricing Policy</Link>
               </li>
             </ul>
             <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
+              <span className="font-bold text-base mb-3">About</span>
               <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-              </li>
-            </ul>
-            <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
-              <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-              </li>
-            </ul>
-            <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
-              <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
+                <Link href="/">About Us</Link>
+                <Link href="/">Contact Us</Link>
+                <Link href="/">FAQs</Link>
               </li>
             </ul>
           </div>
@@ -104,7 +84,7 @@ export default async function Footer() {
             />
           </Link>
         </div>
-        <hr className="w-full bg-slate-900 "></hr>
+        <hr className="w-full bg-slate-900 opacity-20"></hr>
         <div className="flex flex-col justify-between items-end mt-3">
           <div className="flex flex-col text-right">
             <Text className="font-poppins font-bold text-base">
@@ -147,7 +127,7 @@ export default async function Footer() {
               />
             </div>
           </div>
-          <hr className="w-full bg-slate-900 "></hr>
+          <hr className="w-full bg-slate-900 opacity-20"></hr>
         </div>
       </div>
     </footer>

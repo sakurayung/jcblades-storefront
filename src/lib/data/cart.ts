@@ -14,6 +14,8 @@ import {
   setCartId,
 } from "./cookies"
 import { getRegion } from "./regions"
+import { FetchError } from "@medusajs/js-sdk"
+import { m } from "framer-motion"
 
 export async function retrieveCart() {
   const cartId = await getCartId()
@@ -253,6 +255,10 @@ export async function applyPromotions(codes: string[]) {
     .then(async () => {
       const cartCacheTag = await getCacheTag("carts")
       revalidateTag(cartCacheTag)
+
+      const fulfillmentCacheTag = await getCacheTag("fulfillment")
+      revalidateTag(fulfillmentCacheTag)
+      console.log("applyPromotions", codes)
     })
     .catch(medusaError)
 }

@@ -2,6 +2,7 @@ import { listCategories } from "@lib/data/categories"
 import { listCollections } from "@lib/data/collections"
 import { Text, clx } from "@medusajs/ui"
 import Image from "next/image"
+import Link from "next/link"
 
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
@@ -12,29 +13,28 @@ export default async function Footer() {
   const productCategories = await listCategories()
 
   return (
-    <footer className="border-t border-ui-border-base w-full bg-black flex-1">
-      <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col items-center gap-y-6 xsmall:flex-row justify-between py-28">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle uppercase font-sans text-white"
-            >
-              <Image
-                src="/jcbladeslogo.png"
-                alt="JC Blades Logo"
-                width={150}
-                height={150}
-              />
-            </LocalizedClientLink>
+    <footer className="w-full bg-[#212427] text-[#FBFEFC]">
+      <div className="content-container w-full py-8">
+        <div className="flex flex-col md:flex-row justify-between gap-y-8 md:gap-y-0">
+          <div className="flex flex-col sm:flex-row gap-y-4 gap-x-8">
+            <div className="flex justify-center sm:justify-start">
+              <LocalizedClientLink href="/" className="">
+                <Image
+                  src="/jcbladeslogo.png"
+                  alt="JC Blades Logo"
+                  width={91}
+                  height={91}
+                />
+              </LocalizedClientLink>
+            </div>
+            <div className="flex uppercase text-2xl sm:text-3xl md:text-5xl max-w-full sm:w-[300px] md:w-[547px] font-rubik font-bold items-center text-center sm:text-left">
+              BLADES ARE JEWELRY FOR REAL MEN.
+            </div>
           </div>
-          <div className="flex uppercase text-white text-5xl w-[541px] font-rubik text-3xl-footer ml-10 ">
-            BLADES ARE JEWELRY FOR REAL MEN.
-          </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
+          <div className="text-small-regular font-poppins gap-6 md:gap-x-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mt-8 md:mt-0">
             {productCategories && productCategories?.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base text-white uppercase font-poppins">
+                <span className="font-semibold txt-ui-fg-base">
                   Categories
                 </span>
                 <ul
@@ -55,7 +55,7 @@ export default async function Footer() {
 
                     return (
                       <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
+                        className="flex flex-col gap-2 txt-small"
                         key={c.id}
                       >
                         <LocalizedClientLink
@@ -92,12 +92,12 @@ export default async function Footer() {
             )}
             {collections && collections.length > 0 && (
               <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base font-poppins text-white uppercase">
+                <span className="font-semibold txt-ui-fg-base">
                   Collections
                 </span>
                 <ul
                   className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
+                    "grid grid-cols-1 gap-2 txt-xsmall-plus",
                     {
                       "grid-cols-2": (collections?.length || 0) > 3,
                     }
@@ -116,115 +116,86 @@ export default async function Footer() {
                 </ul>
               </div>
             )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base font-poppins text-white">
-                ORDERS
-              </span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href=""
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Orders and Delivery
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Returns and Refund
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/nextjs-starter-medusa"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Payment and Pricing Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base font-poppins text-white">
-                ABOUT
-              </span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href=""
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Contact Us
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href=""
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    FAQs
-                  </a>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
-        <div className="flex justify-between w-full">
-          <div className="flex gap-9">
-            <div className="flex flex-col gap-y-2">
-              <ul className="text-white font-rubik">
-                <a href="">Instagram</a>
-              </ul>
-              <ul className="text-white font-rubik">
-                <a href="">Facebook</a>
-              </ul>
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <ul className="text-white font-rubik">
-                <a href="">YouTube</a>
-              </ul>
-              <ul className="text-white font-rubik">
-                <a href="">TikTok</a>
-              </ul>
-            </div>
-          </div>
-          <div className="flex flex-col gap-y-2">
-            <ul className="text-white font-rubik hover:text-ui-fg-base">
-              <a href="">claymore0three@gmail.com</a>
-            </ul>
-            <ul className="text-white font-rubik">
-              <p>Davao City, 8000</p>
-            </ul>
-          </div>
+        <div className="flex flex-row gap-y-4 gap-x-8 mb-3 mt-8 sm:mt-4 items-center justify-center sm:justify-center md:justify-start">
+          <Link href="https://www.facebook.com/claymore2003">
+            <Image
+              src="/facebook-svgrepo-com.svg"
+              alt="Facebook Logo"
+              width={28}
+              height={28}
+            />
+          </Link>
+          <Link href="https://www.instagram.com/clay2003more/">
+            <Image
+              src="/instagram-svgrepo-com(1).svg"
+              alt="Instagram Logo"
+              width={28}
+              height={28}
+            />
+          </Link>
+          <Link href="https://www.youtube.com/@klamzsharpstuff">
+            <Image
+              src="/youtube-svgrepo-com.svg"
+              alt="Youtube Logo"
+              width={28}
+              height={28}
+            />
+          </Link>
+          <Link href="https://www.tiktok.com">
+            <Image
+              src="/tiktok-svgrepo-com.svg"
+              alt="TikTok Logo"
+              width={28}
+              height={28}
+            />
+          </Link>
         </div>
-        <hr className="w-full my-2 bg-slate-800" />
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} JC Blades. All rights reserved.
-          </Text>
+        <hr className="w-full bg-slate-900 "></hr>
+        <div className="flex flex-col md:flex-row justify-between items-end mt-3 gap-y-4">
+          <div className="flex flex-col text-right md:text-right w-full md:w-auto">
+            <Text className="font-poppins font-bold text-base">
+              claymore0three@gmail.com
+            </Text>
+            <Text className="font-poppins font-bold text-base">
+              Davao City, 8000
+            </Text>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between w-full md:w-auto my-3 md:my-0 items-center gap-y-4">
+            <div>
+              <Text className="font-poppins text-bold text-base text-center md:text-left">
+                © {new Date().getFullYear()} JC Blades. All rights reserved.
+              </Text>
+            </div>
+            <div className="flex flex-row items-center justify-center md:justify-between gap-x-6 mt-2 md:mt-0">
+              <Image
+                src="/visa-svgrepo-com.svg"
+                alt="Visa Logo"
+                width={20}
+                height={20}
+              />
+              <Image
+                src="/gcash-svgrepo-com.svg"
+                alt="GCash Logo"
+                width={20}
+                height={20}
+              />
+              <Image
+                src="/mastercard-svgrepo-com.svg"
+                alt="MasterCard Logo"
+                width={20}
+                height={20}
+              />
+              <Image
+                src="/paypal-svgrepo-com.svg"
+                alt="PayPal Logo"
+                width={20}
+                height={20}
+              />
+            </div>
+          </div>
+          <hr className="w-full bg-slate-900 md:hidden"></hr>
         </div>
       </div>
     </footer>

@@ -1,12 +1,15 @@
 "use client"
 
-import { isManual, isStripe } from "@lib/constants"
+import { isManual, isPaypal, isStripe } from "@lib/constants"
 import { placeOrder } from "@lib/data/cart"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
 import { useElements, useStripe } from "@stripe/react-stripe-js"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import ErrorMessage from "../error-message"
+import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js"
+import { useRouter } from "next/router"
+import { Spinner } from "@medusajs/icons"
 
 type PaymentButtonProps = {
   cart: HttpTypes.StoreCart
@@ -34,6 +37,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
           cart={cart}
           data-testid={dataTestId}
         />
+      )
+    case isPaypal(paymentSession?.provider_id):
+      return (
+        <PayPalPaymentButton
+        notReady={notReady}
+        cart={cart}
+        data-testid={dataTestId}
+      />
       )
     case isManual(paymentSession?.provider_id):
       return (
@@ -142,7 +153,7 @@ const StripePaymentButton = ({
         isLoading={submitting}
         data-testid={dataTestId}
       >
-        Place Order
+        Place order
       </Button>
       <ErrorMessage
         error={errorMessage}
@@ -152,7 +163,9 @@ const StripePaymentButton = ({
   )
 }
 
-{/* This manual payment should wait for the upload receipt component and if ever click the place order it should validate the data */}
+{
+  /* This manual payment should wait for the upload receipt component and if ever click the place order it should validate the data */
+}
 
 const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
   const [submitting, setSubmitting] = useState(false)
@@ -188,6 +201,128 @@ const ManualTestPaymentButton = ({ notReady }: { notReady: boolean }) => {
       <ErrorMessage
         error={errorMessage}
         data-testid="manual-payment-error-message"
+      />
+    </>
+  )
+}
+
+const PayPalPaymentButton = ({
+  cart,
+  notReady,
+  "data-testid": dataTestId,
+}: {
+  cart: HttpTypes.StoreCart
+  notReady: boolean
+  "data-testid"?: string
+}) => {
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [paymentProcessed, setPaymentProcessed] = useState(false)
+  const [paymentData, setPaymentData] = useState<any>(null)
+  const [scriptLoaded, setScriptLoaded] = useState(false)
+
+  const onPaymentCompleted = async () => {
+    await placeOrder()
+      .catch((err) => {
+        setErrorMessage(err.message)
+      })
+      .finally(() => {
+        setSubmitting(false)
+      })
+  }
+
+  const session = cart.payment_collection?.payment_sessions?.find(
+    (s) => s.status === "pending"
+  )
+
+  const handlePayment = async (
+    //@ts-ignore
+    data: OnApproveData,
+    //@ts-ignore
+    actions: OnApproveActions
+  ) => {
+    setSubmitting(true)
+    actions?.order
+      ?.authorize()
+      .then((authorization: { status: string }) => {
+        if (authorization.status !== "COMPLETED") {
+          setErrorMessage(`An error occurred, status: ${authorization.status}`)
+          setSubmitting(false)
+          return
+        }
+        setPaymentProcessed(true)
+        setPaymentData(data)
+        setSubmitting(false)
+      })
+      .catch(() => {
+        setErrorMessage(`An unknown error occurred, please try again.`)
+        setSubmitting(false)
+      })
+  }
+
+  const handleFinalizeOrder = () => {
+    setSubmitting(true)
+    onPaymentCompleted()
+  }
+
+  // Safe way to check if we're in a PayPalScriptProvider context
+  let paypalState;
+  try {
+    const [state] = usePayPalScriptReducer();
+    paypalState = state;
+    if (!scriptLoaded && !state.isPending) {
+      setScriptLoaded(true);
+    }
+  } catch (error) {
+    // If we're here, we're not in a PayPalScriptProvider context
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="text-red-500 text-sm">
+          PayPal integration error: PayPalScriptProvider not found
+        </div>
+        <Button
+          onClick={handleFinalizeOrder}
+          size="large"
+          isLoading={submitting}
+          data-testid="paypal-fallback-button"
+        >
+          Place Order
+        </Button>
+        <ErrorMessage
+          error={errorMessage}
+          data-testid="paypal-payment-error-message"
+        />
+      </div>
+    );
+  }
+
+  if (paypalState?.isPending) {
+    return <Spinner />
+  }
+
+  return (
+    <>
+      {!paymentProcessed ? (
+        <PayPalButtons
+          style={{ layout: "horizontal" }}
+          createOrder={async () => session?.data.id as string}
+          onApprove={handlePayment}
+          disabled={notReady || submitting || paypalState?.isPending}
+          data-testid={dataTestId}
+        />
+      ) : (
+        <Button
+          onClick={handleFinalizeOrder}
+          size="large"
+          isLoading={submitting}
+          data-testid="paypal-finalize-order-button"
+        >
+          Finalize Order
+        </Button>
+      )}
+      <ErrorMessage
+        error={errorMessage}
+        data-testid="paypal-payment-error-message"
       />
     </>
   )

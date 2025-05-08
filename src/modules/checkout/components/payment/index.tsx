@@ -1,12 +1,12 @@
 "use client"
 
 import { Dialog, DialogPanel, DialogTitle, RadioGroup } from "@headlessui/react"
-import { isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
+import { isManual, isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { Button, Container, Heading, Text, clx } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
-import PaymentContainer from "@modules/checkout/components/payment-container"
+import PaymentContainer, { StripeCardContainer } from "@modules/checkout/components/payment-container"
 import { StripeContext } from "@modules/checkout/components/payment-wrapper/stripe-wrapper"
 import Divider from "@modules/common/components/divider"
 import { CardElement } from "@stripe/react-stripe-js"
@@ -50,22 +50,7 @@ const Payment = ({
   const paymentReady =
     (activeSession && cart?.shipping_methods.length !== 0) || paidByGiftcard
 
-  const useOptions: StripeCardElementOptions = useMemo(() => {
-    return {
-      style: {
-        base: {
-          fontFamily: "Inter, sans-serif",
-          color: "#424270",
-          "::placeholder": {
-            color: "rgb(107 114 128)",
-          },
-        },
-      },
-      classes: {
-        base: "pt-3 pb-1 block w-full h-11 px-4 mt-0 bg-ui-bg-field border rounded-md appearance-none focus:outline-none focus:ring-0 focus:shadow-borders-interactive-with-active border-ui-border-base hover:bg-ui-bg-field-hover transition-all duration-300 ease-in-out",
-      },
-    }
-  }, [])
+
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -95,6 +80,7 @@ const Payment = ({
         })
       }
 
+      
       if (!shouldInputCard) {
         return router.push(
           pathname + "?" + createQueryString("step", "review"),
@@ -150,19 +136,31 @@ const Payment = ({
                 value={selectedPaymentMethod}
                 onChange={(value: string) => {
                   setSelectedPaymentMethod(value)
-                  setShowPaymentModal(true)
+                  if (isManual(value)) {
+                    setShowPaymentModal(true)
+                  }
                 }}
               >
-                {availablePaymentMethods.map((paymentMethod) => {
-                  return (
-                    <PaymentContainer
-                      paymentInfoMap={paymentInfoMap}
-                      paymentProviderId={paymentMethod.id}
-                      key={paymentMethod.id}
-                      selectedPaymentOptionId={selectedPaymentMethod}
-                    />
-                  )
-                })}
+               {availablePaymentMethods.map((paymentMethod) => (
+                  <div key={paymentMethod.id}>
+                    {isStripeFunc(paymentMethod.id) ? (
+                      <StripeCardContainer
+                        paymentProviderId={paymentMethod.id}
+                        selectedPaymentOptionId={selectedPaymentMethod}
+                        paymentInfoMap={paymentInfoMap}
+                        setCardBrand={setCardBrand}
+                        setError={setError}
+                        setCardComplete={setCardComplete}
+                      />
+                    ) : (
+                      <PaymentContainer
+                        paymentInfoMap={paymentInfoMap}
+                        paymentProviderId={paymentMethod.id}
+                        selectedPaymentOptionId={selectedPaymentMethod}
+                      />
+                    )}
+                  </div>
+                ))}
               </RadioGroup>
               <Dialog
                 open={showPaymentModal}
@@ -178,7 +176,14 @@ const Payment = ({
                       >
                         Payment Details
                       </DialogTitle>
-                      <div>{/**IMAGE OF THE ACCOUNT DETAILS HERE */}</div>
+                      <div className="flex-col">
+                        {/**IMAGE OF THE ACCOUNT DETAILS HERE */}
+                        <Text>Account Details</Text>
+                        <p>
+                          Gcash Number: 09519400471 J***** P******* S.
+                          Maya Number: 09859601354 J** C***** B.
+                        </p>
+                      </div>
                       <div className="mt-10">
                         <FileUploadComponent />
                       </div>

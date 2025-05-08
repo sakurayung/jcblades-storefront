@@ -1,7 +1,7 @@
 "use client"
 
 import { Badge, Heading, Input, Label, Text, Tooltip } from "@medusajs/ui"
-import React, { useActionState } from "react";
+import React, { useActionState } from "react"
 
 import { applyPromotions, submitPromotionForm } from "@lib/data/cart"
 import { convertToLocale } from "@lib/util/money"
@@ -34,8 +34,24 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
   const addPromotionCode = async (formData: FormData) => {
     const code = formData.get("code")
     if (!code) {
-      return
+      return "Please enter a promotion code"
     }
+
+    console.log("All promotions:", promotions)
+
+    const existingCodes = promotions
+      .filter((p) => p.code !== null)
+      .map((p) => p.code!)
+
+    console.log("Existing codes:", existingCodes)
+
+    const allCodes = [...existingCodes, code.toString()]
+
+    console.log(
+      "Current promotions:",
+      promotions.map((p) => p.code?.toString())
+    )
+    console.log("All codes to apply:", allCodes)
     const input = document.getElementById("promotion-input") as HTMLInputElement
     const codes = promotions
       .filter((p) => p.code === undefined)
@@ -46,6 +62,8 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
 
     if (input) {
       input.value = ""
+    } else {
+      console.error("Input element not found")
     }
   }
 
@@ -128,7 +146,9 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                               "percentage"
                                 ? `${promotion.application_method.value}%`
                                 : convertToLocale({
-                                    amount: promotion.application_method.value,
+                                    amount: Number(
+                                      promotion.application_method.value
+                                    ),
                                     currency_code:
                                       promotion.application_method
                                         .currency_code,

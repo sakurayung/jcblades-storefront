@@ -5,7 +5,8 @@ import { SubmitButton } from "@modules/checkout/components/submit-button"
 import Input from "@modules/common/components/input"
 import Image from "next/image"
 import { useActionState } from "react"
-
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { Text } from "@medusajs/ui"
 /**TODO: REFACTOR THE LOGIN COMPONENT USING SHADCN  */
 
 type Props = {
@@ -16,26 +17,31 @@ const Login = ({ setCurrentView }: Props) => {
   const [message, formAction] = useActionState(login, null)
 
   return (
-    <div className="max-w-sm w-full flex flex-col" data-testid="login-page">
-      <div className="flex justify-center mb-6">
-        <Image
-          src="/jcbladeslogo.png"
-          alt="Logo"
-          width={150}
-          height={150}
-          layout="fixed"/>
+    <div
+      className="flex flex-col gap-y-6 border border-black rounded-3xl justify-center w-[582px] px-8 py-[89px]"
+      data-testid="login-page"
+    >
+      <div>
+        <LocalizedClientLink href="/">
+          <Image
+            src="/jcbladeslogo.png"
+            alt="JC Blades Logo"
+            width={100}
+            height={100}
+          />
+        </LocalizedClientLink>
       </div>
-      <h1 className="text-large-semi uppercase font-poppins">Login</h1>
-      <p className="text-base-regular text-ui-fg-base mb-8">
-        Please sign in to continue.
-      </p>
+      <div className="flex flex-col justify-between gap-y-4">
+        <Text className="font-poppins font-bold text-5xl">Login</Text>
+        <Text className="font-poppins">Please sign in to continue.</Text>
+      </div>
       <form className="w-full" action={formAction}>
-        <div className="flex flex-col w-full gap-y-2">
+        <div className="flex flex-col gap-y-5">
           <Input
             label="Email"
             name="email"
             type="email"
-            title="Enter a valid email address."
+            title="Enter your email"
             autoComplete="email"
             required
             data-testid="email-input"
@@ -48,23 +54,21 @@ const Login = ({ setCurrentView }: Props) => {
             required
             data-testid="password-input"
           />
+          <ErrorMessage error={message} data-testid="login-error-message" />
+          <SubmitButton data-testid="sign-in-button" className="w-full">
+            Sign In
+          </SubmitButton>
         </div>
-        <ErrorMessage error={message} data-testid="login-error-message" />
-        <SubmitButton data-testid="sign-in-button" className="w-full mt-6">
-          Sign in
-        </SubmitButton>
       </form>
-      <span className="text-center text-ui-fg-base text-small-regular mt-6 font-rubik">
+      <Text>
         Not a member?{" "}
-        <button
+        <span
           onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)}
-          className="underline"
-          data-testid="register-button"
+          className="cursor-pointer text-blue-500"
         >
           Register here!
-        </button>
-        .
-      </span>
+        </span>
+      </Text>
     </div>
   )
 }

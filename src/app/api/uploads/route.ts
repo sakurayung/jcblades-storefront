@@ -1,12 +1,26 @@
 import { NextRequest, NextResponse } from "next/server"
 import axios from "axios"
-import { Readable } from 'stream';
+import { getCartId } from "@lib/data/cookies"
 
 export async function POST(request: NextRequest) {
   try {
     // Get form data from request
     const formData = await request.formData();
     const medusaFormData = new FormData();
+    
+    // Get cart ID from cookies directly (server component can access cookies)
+    const cartId = await getCartId();
+    
+    if (!cartId) {
+      console.error("No cart ID found in cookies");
+      return NextResponse.json(
+        { message: "No cart found. Please add items to your cart first." },
+        { status: 400 }
+      );
+    }
+    
+    // Add cart_id to Medusa form data
+    medusaFormData.append('cart_id', cartId);
     
     // Copy files from incoming form data to new form data for Medusa
     const files = formData.getAll('files');
@@ -20,8 +34,7 @@ export async function POST(request: NextRequest) {
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          "x-publishable-api-key": 
-            process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+          "x-publishable-api-key": process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
         },
       }
     )

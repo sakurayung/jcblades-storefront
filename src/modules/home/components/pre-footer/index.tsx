@@ -23,14 +23,6 @@ export default function HeroSection() {
           <p className="text-lg md:text-xl opacity-90 max-w-xl mx-auto">
             Each knife tells a story of craftsmanship, precision, and dedication. Discover our handcrafted collection.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-            <Button size="large" className="bg-white text-black hover:bg-white/90">
-              Shop Collection
-            </Button>
-            <Button size="large" variant="primary" className="border-white text-white hover:bg-white/20">
-              Our Process
-            </Button>
-          </div>
         </div>
       </div>
     </section>

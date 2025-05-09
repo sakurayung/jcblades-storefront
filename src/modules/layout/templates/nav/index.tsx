@@ -7,7 +7,7 @@ import CartButton from "@modules/layout/components/cart-button"
 import { LuUserRound } from "react-icons/lu"
 import RegionSelection from "@modules/layout/components/regions";
 import Image from "next/image"
-import NavItems from "./navitems"
+import NavItems from "./navitems/NavItems"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)

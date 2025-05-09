@@ -15,9 +15,9 @@ export default async function Footer() {
   return (
     <footer className="w-full bg-[#212427] text-[#FBFEFC]">
       <div className="content-container w-full py-8">
-        <div className="flex flex-row justify-between">
-          <div className="flex flex-row gap-x-8">
-            <div>
+        <div className="flex flex-col md:flex-row justify-between gap-y-8 md:gap-y-0">
+          <div className="flex flex-col sm:flex-row gap-y-4 gap-x-8">
+            <div className="flex justify-center sm:justify-start">
               <LocalizedClientLink href="/" className="">
                 <Image
                   src="/jcbladeslogo.png"
@@ -27,50 +27,98 @@ export default async function Footer() {
                 />
               </LocalizedClientLink>
             </div>
-            <div className="flex uppercase text-5xl w-[547px] font-rubik font-bold">
+            <div className="flex uppercase text-2xl sm:text-3xl md:text-5xl max-w-full sm:w-[300px] md:w-[547px] font-rubik font-bold items-center text-center sm:text-left">
               BLADES ARE JEWELRY FOR REAL MEN.
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-x-8 font-poppins">
-            <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
-              <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-              </li>
-            </ul>
-            <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
-              <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-              </li>
-            </ul>
-            <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
-              <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-              </li>
-            </ul>
-            <ul className="grid grid-col-1">
-              <span className="font-bold text-base mb-3">Category</span>
-              <li className="flex flex-col gap-y-2">
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-                <a>Item 1</a>
-              </li>
-            </ul>
+          <div className="text-small-regular font-poppins gap-6 md:gap-x-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mt-8 md:mt-0">
+            {productCategories && productCategories?.length > 0 && (
+              <div className="flex flex-col gap-y-2">
+                <span className="font-semibold txt-ui-fg-base">
+                  Categories
+                </span>
+                <ul
+                  className="grid grid-cols-1 gap-2"
+                  data-testid="footer-categories"
+                >
+                  {productCategories?.slice(0, 6).map((c) => {
+                    if (c.parent_category) {
+                      return
+                    }
+
+                    const children =
+                      c.category_children?.map((child) => ({
+                        name: child.name,
+                        handle: child.handle,
+                        id: child.id,
+                      })) || null
+
+                    return (
+                      <li
+                        className="flex flex-col gap-2 txt-small"
+                        key={c.id}
+                      >
+                        <LocalizedClientLink
+                          className={clx(
+                            "hover:text-ui-fg-base",
+                            children && "txt-small-plus"
+                          )}
+                          href={`/categories/${c.handle}`}
+                          data-testid="category-link"
+                        >
+                          {c.name}
+                        </LocalizedClientLink>
+                        {children && (
+                          <ul className="grid grid-cols-1 ml-3 gap-2">
+                            {children &&
+                              children.map((child) => (
+                                <li key={child.id}>
+                                  <LocalizedClientLink
+                                    className="hover:text-ui-fg-base"
+                                    href={`/categories/${child.handle}`}
+                                    data-testid="category-link"
+                                  >
+                                    {child.name}
+                                  </LocalizedClientLink>
+                                </li>
+                              ))}
+                          </ul>
+                        )}
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            )}
+            {collections && collections.length > 0 && (
+              <div className="flex flex-col gap-y-2">
+                <span className="font-semibold txt-ui-fg-base">
+                  Collections
+                </span>
+                <ul
+                  className={clx(
+                    "grid grid-cols-1 gap-2 txt-xsmall-plus",
+                    {
+                      "grid-cols-2": (collections?.length || 0) > 3,
+                    }
+                  )}
+                >
+                  {collections?.slice(0, 6).map((c) => (
+                    <li key={c.id}>
+                      <LocalizedClientLink
+                        className="hover:text-ui-fg-base"
+                        href={`/collections/${c.handle}`}
+                      >
+                        {c.title}
+                      </LocalizedClientLink>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
-        <div className="flex flex-row gap-x-8 mb-3">
+        <div className="flex flex-row gap-y-4 gap-x-8 mb-3 mt-8 sm:mt-4 items-center justify-center sm:justify-center md:justify-start">
           <Link href="https://www.facebook.com/claymore2003">
             <Image
               src="/facebook-svgrepo-com.svg"
@@ -105,8 +153,8 @@ export default async function Footer() {
           </Link>
         </div>
         <hr className="w-full bg-slate-900 "></hr>
-        <div className="flex flex-col justify-between items-end mt-3">
-          <div className="flex flex-col text-right">
+        <div className="flex flex-col md:flex-row justify-between items-end mt-3 gap-y-4">
+          <div className="flex flex-col text-right md:text-right w-full md:w-auto">
             <Text className="font-poppins font-bold text-base">
               claymore0three@gmail.com
             </Text>
@@ -114,13 +162,13 @@ export default async function Footer() {
               Davao City, 8000
             </Text>
           </div>
-          <div className="flex flex-row justify-between w-full my-3">
+          <div className="flex flex-col md:flex-row justify-between w-full md:w-auto my-3 md:my-0 items-center gap-y-4">
             <div>
-              <Text className="font-poppins text-bold text-base">
+              <Text className="font-poppins text-bold text-base text-center md:text-left">
                 © {new Date().getFullYear()} JC Blades. All rights reserved.
               </Text>
             </div>
-            <div className="flex flex-row items-center justify-between gap-x-6">
+            <div className="flex flex-row items-center justify-center md:justify-between gap-x-6 mt-2 md:mt-0">
               <Image
                 src="/visa-svgrepo-com.svg"
                 alt="Visa Logo"
@@ -147,7 +195,7 @@ export default async function Footer() {
               />
             </div>
           </div>
-          <hr className="w-full bg-slate-900 "></hr>
+          <hr className="w-full bg-slate-900 md:hidden"></hr>
         </div>
       </div>
     </footer>

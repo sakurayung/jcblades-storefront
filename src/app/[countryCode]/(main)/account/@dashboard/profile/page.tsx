@@ -44,6 +44,9 @@ export default async function Profile() {
         {/* <ProfilePassword customer={customer} />
         <Divider /> */}
         <ProfileBillingAddress customer={customer} regions={regions} />
+        <Divider />
+        {/* <DeleteAccountButton /> */}
+        {/* <DeleteAccountButtonWrapper customer={customer}/> */}
       </div>
     </div>
   )

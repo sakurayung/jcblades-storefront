@@ -8,7 +8,8 @@ import ProfilePassword from "@modules/account/components/profile-password"
 
 import { notFound } from "next/navigation"
 import { listRegions } from "@lib/data/regions"
-import { retrieveCustomer } from "@lib/data/customer"
+import { retrieveCustomer, getCustomerMetadata } from "@lib/data/customer"
+import DeleteAccountButtonWrapper from "@modules/account/components/profile-deletion"
 
 export const metadata: Metadata = {
   title: "Profile",
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
 export default async function Profile() {
   const customer = await retrieveCustomer()
   const regions = await listRegions()
+  const customerMetadata = await getCustomerMetadata()
 
   if (!customer || !regions) {
     notFound()

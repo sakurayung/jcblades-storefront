@@ -27,6 +27,11 @@ const Overview = ({ customer, orders }: OverviewProps) => {
             >
               {customer?.email}
             </span>
+            <div>
+              <span>
+                Email Verified: {customer?.metadata?.email_verified ? "Not Yet" : "Yes"}
+              </span>
+            </div>
           </span>
         </div>
         <div className="flex flex-col py-8 border-t border-gray-200">

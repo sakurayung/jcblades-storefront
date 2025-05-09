@@ -245,3 +245,28 @@ export const updateCustomerAddress = async (
       return { success: false, error: err.toString() }
     })
 }
+
+export const getCustomerMetadata = async(): Promise<HttpTypes.StoreCustomer | null> => {
+  const headers = {
+    ...(await getAuthHeaders()),
+  }
+
+  const next = {
+    ...(await getCacheOptions("customers")),
+  }
+
+  return await sdk.client
+  .fetch<{ customer: HttpTypes.StoreCustomer }>(`/store/customers/me`, {
+    method: "GET",
+    query: {
+      fields: "metadata",
+    },
+    headers,
+    next,
+    cache: "force-cache",
+  })
+  .then(({ customer }) => customer)
+  .catch(() => null)
+}
+
+

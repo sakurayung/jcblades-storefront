@@ -12,9 +12,13 @@ export default async function AccountPageLayout({
   const customer = await retrieveCustomer().catch(() => null)
 
   return (
-    <AccountLayout customer={customer}>
-      {customer ? dashboard : login}
+    <>
+      {customer ? (
+        <AccountLayout customer={customer}>{dashboard}</AccountLayout>
+      ) : (
+        <>{login}</>
+      )}
       <Toaster />
-    </AccountLayout>
+    </>
   )
 }

@@ -9,7 +9,6 @@ import ProfilePassword from "@modules/account/components/profile-password"
 import { notFound } from "next/navigation"
 import { listRegions } from "@lib/data/regions"
 import { retrieveCustomer, getCustomerMetadata } from "@lib/data/customer"
-import DeleteAccountButtonWrapper from "@modules/account/components/profile-deletion"
 
 export const metadata: Metadata = {
   title: "Profile",

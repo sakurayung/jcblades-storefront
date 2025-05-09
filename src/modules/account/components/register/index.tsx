@@ -55,6 +55,7 @@ const Register = ({ setCurrentView }: Props) => {
           src="/register-page.jpg"
           alt="hero"
           fill
+          sizes="(min-width: 1000px) 300vw, 100vw"
           className="object-cover"
           priority
         />

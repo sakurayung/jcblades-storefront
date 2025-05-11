@@ -1,10 +1,15 @@
 "use client"
 import { useState, useRef, ChangeEvent, useEffect } from "react"
 import axios from "axios"
-import { sdk } from "@lib/config"
+// import { sdk } from "@lib/config"; // This import is unused
 
-const FileUploadComponent = () => {
-  // Change the state to handle multiple files
+interface FileUploadComponentProps {
+  onUploadComplete?: () => void // Callback to signal upload completion
+}
+
+const FileUploadComponent = ({
+  onUploadComplete,
+}: FileUploadComponentProps) => {
   const [files, setFiles] = useState<File[]>([])
   const [uploading, setUploading] = useState(false)
   const [uploadedFileUrl, setUploadedFileUrl] = useState("")
@@ -13,7 +18,7 @@ const FileUploadComponent = () => {
   const [isDragging, setIsDragging] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [cartId, setCartId] = useState<string | null>(null)
-  const [uploadedFileName, setUploadedFileName] = useState("")
+  const [uploadedFileName, setUploadedFileName] = useState("") // Kept for completeness, though UI might not show if modal closes
   const [hasUploaded, setHasUploaded] = useState(false)
 
   useEffect(() => {
@@ -34,36 +39,37 @@ const FileUploadComponent = () => {
     fetchCartId()
   }, [])
 
+  // Consider initializing hasUploaded from sessionStorage if persistence across remounts is desired
+  // useEffect(() => {
+  //   if (sessionStorage.getItem("receipt_uploaded") === "true") {
+  //     setHasUploaded(true);
+  //   }
+  // }, []);
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     setError(null)
     const selectedFiles = Array.from(e.target.files || [])
 
-    // Validate file count
     if (selectedFiles.length + files.length > 2) {
       setError("Maximum 2 files allowed")
       return
     }
 
-    // Validate file types and sizes
     const invalidFile = selectedFiles.find((file) => {
       const acceptableTypes = ["image/jpeg", "image/png", "image/jpg"]
-
       if (!acceptableTypes.includes(file.type)) {
         setError("Please upload valid image files (JPEG or PNG)")
         return true
       }
-
       if (file.size > 5 * 1024 * 1024) {
         setError("File size exceeds 5MB")
         return true
       }
-
       return false
     })
 
     if (invalidFile) return
 
-    // Check for duplicate in selectedFiles filenames
     const newFiles = selectedFiles.filter(
       (newFile) =>
         !files.some((existingFile) => existingFile.name === newFile.name)
@@ -93,32 +99,26 @@ const FileUploadComponent = () => {
 
     const droppedFiles = Array.from(e.dataTransfer.files || [])
 
-    // Validate file count
     if (droppedFiles.length + files.length > 2) {
       setError("Maximum 2 files allowed")
       return
     }
 
-    // Validate file types and sizes
     const invalidFile = droppedFiles.find((file) => {
       const acceptableTypes = ["image/jpeg", "image/png", "image/jpg"]
-
       if (!acceptableTypes.includes(file.type)) {
         setError("Please upload valid image files (JPEG or PNG)")
         return true
       }
-
       if (file.size > 5 * 1024 * 1024) {
         setError("File size exceeds 5MB")
         return true
       }
-
       return false
     })
 
     if (invalidFile) return
 
-    // Check for duplicate in droppedFiles filenames
     const newFiles = droppedFiles.filter(
       (newFile) =>
         !files.some((existingFile) => existingFile.name === newFile.name)
@@ -140,17 +140,13 @@ const FileUploadComponent = () => {
   }
 
   const handleUpload = async () => {
-    if (files.length === 0) {
-      return
-    }
-
+    if (files.length === 0) return
     if (hasUploaded) {
       setError(
         "Receipt have already been uploaded. Please refresh to upload again."
       )
       return
     }
-
     if (!cartId) {
       setError("Cart information is unavailable. Please try again.")
       return
@@ -162,16 +158,12 @@ const FileUploadComponent = () => {
 
     try {
       const formData = new FormData()
-
-      // Append all files to the formData
       files.forEach((file) => {
         formData.append("files", file)
       })
 
       const response = await axios.post("/api/uploads", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
             const progress = Math.round(
@@ -187,12 +179,15 @@ const FileUploadComponent = () => {
         response.data.uploads &&
         response.data.uploads.length > 0
       ) {
-        setUploadedFileUrl(response.data.uploads[0].url)
+        setUploadedFileUrl(response.data.uploads[0].url) // Note: Uses only the first file's URL
         setUploadedFileName(
           files.length === 1 ? files[0].name : `${files.length} files uploaded`
         )
         setHasUploaded(true)
         sessionStorage.setItem("receipt_uploaded", "true")
+
+        // Call the callback to signal completion (e.g., close modal)
+        onUploadComplete?.()
       }
       setUploading(false)
     } catch (error: any) {
@@ -211,12 +206,12 @@ const FileUploadComponent = () => {
     setError(null)
     setUploadProgress(0)
     setHasUploaded(false)
+    // sessionStorage.removeItem("receipt_uploaded"); // If you want "Upload Again" to clear this
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
   }
 
-  // Get file size in a readable format
   const getFileSize = (bytes: number): string => {
     if (bytes < 1024) return bytes + " bytes"
     else if (bytes < 1048576) return (bytes / 1024).toFixed(1) + " KB"
@@ -225,8 +220,9 @@ const FileUploadComponent = () => {
 
   return (
     <div className="w-full max-w-md mx-auto bg-white rounded-lg border border-gray-100 shadow-sm">
-      {!uploadedFileUrl ? (
+      {!uploadedFileUrl ? ( // This screen will be shown until upload is successful
         <div className="p-5">
+          {/* ... (rest of your existing JSX for the upload form) ... */}
           <div className="mb-4">
             <h3 className="text-base font-medium text-gray-900">
               Upload Receipt
@@ -436,13 +432,15 @@ const FileUploadComponent = () => {
               : "Upload Receipt"}
           </button>
 
-          {hasUploaded && (
+          {hasUploaded && ( // This message might appear if hasUploaded is true initially
             <p className="mt-2 text-xs text-amber-600 text-center">
-              Files have already been uploaded. Refresh to upload again.
+              Files have already been uploaded. Refresh to upload again or reset.
             </p>
           )}
         </div>
       ) : (
+        // This "Upload Complete" screen might not be visible if the modal closes immediately.
+        // Its content is kept for completeness or if you decide to delay the modal close.
         <div className="p-5">
           <div className="mb-4">
             <div className="flex items-center space-x-2">
@@ -495,13 +493,11 @@ const FileUploadComponent = () => {
                 </div>
                 <div className="overflow-hidden">
                   <p className="text-sm font-medium text-gray-900 truncate">
-                    {files.length === 1
-                      ? files[0].name
-                      : `${files.length} files uploaded`}
+                    {uploadedFileName}
                   </p>
                   <p className="text-xs text-gray-500">
                     {files.length === 1
-                      ? files[0].type.includes("pdf")
+                      ? files[0].type.includes("pdf") // Example, adjust if PDF not allowed
                         ? "PDF Document"
                         : "Image"
                       : "Multiple Files"}
@@ -521,7 +517,7 @@ const FileUploadComponent = () => {
               View Receipt
             </a>
             <button
-              onClick={resetUpload}
+              onClick={resetUpload} // This button would allow uploading again if the modal didn't close
               className="flex-1 px-4 py-2.5 text-sm font-medium text-gray-600 bg-gray-100 rounded-md hover:bg-gray-200 transition-all"
             >
               Upload Again

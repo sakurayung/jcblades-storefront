@@ -1,12 +1,18 @@
 "use client"
 
 import { Dialog, DialogPanel, DialogTitle, RadioGroup } from "@headlessui/react"
-import { isManual, isStripe as isStripeFunc, paymentInfoMap } from "@lib/constants"
+import {
+  isManual,
+  isStripe as isStripeFunc,
+  paymentInfoMap,
+} from "@lib/constants"
 import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { Button, Container, Heading, Text, clx } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
-import PaymentContainer, { StripeCardContainer } from "@modules/checkout/components/payment-container"
+import PaymentContainer, {
+  StripeCardContainer,
+} from "@modules/checkout/components/payment-container"
 import { StripeContext } from "@modules/checkout/components/payment-wrapper/stripe-wrapper"
 import Divider from "@modules/common/components/divider"
 import { CardElement } from "@stripe/react-stripe-js"
@@ -50,8 +56,6 @@ const Payment = ({
   const paymentReady =
     (activeSession && cart?.shipping_methods.length !== 0) || paidByGiftcard
 
-
-
   const createQueryString = useCallback(
     (name: string, value: string) => {
       const params = new URLSearchParams(searchParams)
@@ -80,7 +84,6 @@ const Payment = ({
         })
       }
 
-      
       if (!shouldInputCard) {
         return router.push(
           pathname + "?" + createQueryString("step", "review"),
@@ -141,7 +144,7 @@ const Payment = ({
                   }
                 }}
               >
-               {availablePaymentMethods.map((paymentMethod) => (
+                {availablePaymentMethods.map((paymentMethod) => (
                   <div key={paymentMethod.id}>
                     {isStripeFunc(paymentMethod.id) ? (
                       <StripeCardContainer
@@ -180,23 +183,22 @@ const Payment = ({
                         {/**IMAGE OF THE ACCOUNT DETAILS HERE */}
                         <Text>Account Details</Text>
                         <p>
-                          Gcash Number: 09519400471 J***** P******* S.
-                          Maya Number: 09859601354 J** C***** B.
+                          Gcash Number: 09519400471 J***** P******* S. Maya
+                          Number: 09859601354 J** C***** B.
                         </p>
                       </div>
                       <div className="mt-10">
-                        <FileUploadComponent />
+                        {/* MODIFIED LINE BELOW */}
+                        <FileUploadComponent
+                          onUploadComplete={() => {
+                            console.log(
+                              "Upload complete from Dialog, closing modal."
+                            )
+                            setShowPaymentModal(false)
+                            // You could also trigger a success notification here if needed
+                          }}
+                        />
                       </div>
-                      <div className="flex justify-center">
-                      <Button
-                        onClick={() => setShowPaymentModal(false)}
-                        className="mt-10"
-                        variant="secondary"
-                      >
-                        Close
-                      </Button>
-                      </div>
-              
                     </DialogPanel>
                   </div>
                 </div>

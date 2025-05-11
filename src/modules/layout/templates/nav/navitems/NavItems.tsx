@@ -1,7 +1,7 @@
 import { listCategories } from "@lib/data/categories"
 import NavItemsClient from "./index"
 
-const navbarItems = ["Blade Types", "About", "Inspiration", "Store"]
+const navbarItems = ["Blade Types", "About", "Store"]
 
 export default async function NavItems({ isDropdown }: { isDropdown: boolean }) {
   const categories = await listCategories()

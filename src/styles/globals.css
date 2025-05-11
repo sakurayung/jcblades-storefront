@@ -135,3 +135,9 @@ body::-webkit-scrollbar {
   @apply bg-[#121212] rounded-lg border py-10;
 }
 
+@font-face {
+  font-family: 'Kelystone';
+  src: url('/fonts/Kelystone.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}

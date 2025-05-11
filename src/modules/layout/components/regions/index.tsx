@@ -8,9 +8,7 @@ const RegionSelectionDropdown = ({ regions }: { regions: HttpTypes.StoreRegion[]
   const toggleState = useToggleState()
 
   return (
-                <div
-                        className="flex flex-row border-b-[0.01px] border-b-[#919090] hover:text-white hover:border-white items-center gap-1 text-[#919090] "
-                        className="flex flex-row border-b-[0.01px] border-b-[#52525b] hover:text-black hover:border-black items-center gap-1 text-[#52525b] "
+                <div className=" font-spaceGrotesk items-center justify-center gap-1 text-black  hover:underline"
                         onMouseEnter={toggleState.open}
                         onMouseLeave={toggleState.close}
                       >
@@ -20,12 +18,7 @@ const RegionSelectionDropdown = ({ regions }: { regions: HttpTypes.StoreRegion[]
                             regions={regions}
                           />
                         )}
-                        <IoMdArrowRoundForward    
-                          className={clx(
-                            "transition-transform duration-150 ",
-                            toggleState.state ? "rotate-90" : ""
-                          )}
-                        />
+                       
                 </div>
   )
 }

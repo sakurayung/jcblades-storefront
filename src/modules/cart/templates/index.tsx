@@ -13,7 +13,7 @@ const CartTemplate = ({
   customer: HttpTypes.StoreCustomer | null
 }) => {
   return (
-    <div className="py-12">
+    <div className="py-12 mt-[50px]">
       <div className="content-container" data-testid="cart-container">
         {cart?.items?.length ? (
           <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">

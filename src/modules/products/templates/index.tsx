@@ -32,24 +32,14 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         className="content-container flex flex-col small:flex-row small:items-start py-6 relative items-center justify-center pt-10"
         data-testid="product-container"
       >
-        <div className="flex flex-col gap-4 mx-8 ">
+        <div className="flex flex-col gap-10 mx-8 max-h-[calc(100vh-12rem)] overflow-y-auto no-scrollbar"> {/* MODIFIED LINE */}
                 <div className="w-[500px]  relative">
                   <ImageGallery images={product?.images || []} />
                 </div>
-          <div className="flex flex-row gap-4">
-                <div className="w-[155px] relative">
-                  <ImageGallery images={product?.images || []} />
-                </div>
-                <div className="w-[155px] relative">
-                  <ImageGallery images={product?.images || []} />
-                </div>
-                <div className="w-[155px] relative">
-                  <ImageGallery images={product?.images || []} />
-                </div>
-          </div>
+                {/* If you added more ImageGallery components as per the previous suggestion, they would be here */}
         </div>
         
-        <div className="flex flex-col small:sticky max-w-[500px] w-full py-2 gap-y-4">
+        <div className="flex flex-col small:sticky small:top-48 max-w-[500px] w-full py-2 gap-y-4"> {/* Ensure small:top-48 is present for alignment */}
           <ProductInfo product={product} />
           <div className="bg-[#e5e7eb] h-[1px] w-full"></div>
           <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[500px] ">

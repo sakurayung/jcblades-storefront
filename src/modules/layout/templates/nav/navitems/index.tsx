@@ -45,17 +45,17 @@ export default function NavItemsClient({
 
   return (
     <span>
-      <ul className="flex flex-col md:flex-row md:justify-center space-y-2 md:space-y-0 md:space-x-8 items-center gap-2 md:gap-8 relative z-20">
+      <ul className="flex flex-col lg:flex-row lg:justify-center space-y-2 md:space-y-0 lg:space-x-8  gap-0 lg:gap-8 relative z-20">
         {navbarItems.map((item) => (
           <li key={item} className="relative flex flex-row w-full md:w-auto">
             {item === "Blade Types" ? (
               <span
                 ref={buttonRef}
-                className={`font-poppins text-[15px] w-full font-medium cursor-pointer px-4 py-2 md:px-0 md:py-0
+                className={`font-poppins text-[14px] w-full font-medium cursor-pointer uppercase px-4 py-2 md:px-0 md:py-0
                 ${
                   isDropdown
-                    ? "text-[#919090] after:bg-white"
-                    : "text-[#919090] after:bg-white"
+                    ? "text-[#000000] after:bg-black"
+                    : "text-[#000000] after:bg-black"
                 } after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full 
                   after:origin-bottom-right after:scale-x-0 
                   after:transition-transform after:duration-300 
@@ -71,11 +71,11 @@ export default function NavItemsClient({
             ) : (
               <LocalizedClientLink
                 href={`/${item.toLowerCase()}`}
-                className={`font-poppins text-[15px] font-medium cursor-pointer flex flex-row gap-4 items-center justify-center px-4 py-2 md:px-0 md:py-0
+                className={`font-poppins text-[14px] font-medium cursor-pointer uppercase flex flex-row gap-4 items-center justify-center px-4 py-2 md:px-0 md:py-0
                 ${
                   isDropdown
-                    ? "text-[#919090] after:bg-white"
-                    : "text-[#919090] after:bg-white"
+                    ? "text-[#000000] after:bg-black"
+                    : "text-[#000000] after:bg-black"
                 } after:absolute after:-bottom-0.5 after:left-0 after:h-[2px] after:w-full 
                   after:origin-bottom-right after:scale-x-0 
                   after:transition-transform after:duration-300 
@@ -87,6 +87,7 @@ export default function NavItemsClient({
             )}
           </li>
         ))}
+      
 
         {dropdownOpen && (
           <div
@@ -114,4 +115,4 @@ export default function NavItemsClient({
       </ul>
     </span>
   )
-}
+} 

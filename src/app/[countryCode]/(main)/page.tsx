@@ -41,7 +41,6 @@ export default async function Home(props: {
           <FeaturedProducts collections={collections} region={region} />
         </ul>
       </div>
-      <ReviewSection/>
       <CategoriesSection/>
       <PreFooterSection/>
     </>

@@ -29,15 +29,10 @@ export default function CheckoutLayout({
           <div className="flex-1 basis-0" />
           <LocalizedClientLink
             href="/"
-            className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+            className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base text-black font-bold font-kelystone text-[26px]"
             data-testid="store-link"
           >
-                <Image
-                  src="/logo/jcblades.png"
-                  alt="Navbar Logo"
-                  width={120}
-                  height={120}
-                />
+              JC Blades
           </LocalizedClientLink>
         </nav>
       </div>

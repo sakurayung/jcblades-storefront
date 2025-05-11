@@ -7676,6 +7676,7 @@ __metadata:
     react-country-flag: ^3.1.0
     react-dom: 19.0.0-rc-66855b96-20241106
     react-icons: ^5.5.0
+    react-intersection-observer: ^9.16.0
     react-use: ^17.6.0
     server-only: ^0.0.1
     tailwindcss: ^3.4.0
@@ -8834,6 +8835,19 @@ __metadata:
   peerDependencies:
     react: "*"
   checksum: cbd74f4b7982e6e18d59798a6b578268c8eb0909d78d87bcf9b25f99b3e544fd189a76551cb5e770d17f154a60b668551aee108aaf8471309b23f7af3b2c5b07
+  languageName: node
+  linkType: hard
+
+"react-intersection-observer@npm:^9.16.0":
+  version: 9.16.0
+  resolution: "react-intersection-observer@npm:9.16.0"
+  peerDependencies:
+    react: ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+  checksum: 2b6357376e5ef48913e47fe2276d5e93cc1c3d3063266fd0361fbcac46f527b50a963206e1647e178236d9384dcae2d2967ce2e99b303f1bb2a95c9f49888ad2
   languageName: node
   linkType: hard
 

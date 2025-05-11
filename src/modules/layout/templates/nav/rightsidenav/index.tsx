@@ -13,14 +13,14 @@ export default async function LeftNavbar() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions);
 
   return (
-    <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+    <div className="flex items-center  h-full flex-1 basis-0 justify-end">
       <div className="h-full flex items-center">
         {/* Place Navbar here */}
        
         <RegionSelection regions={regions} />
       </div>
       
-      <div className="hidden small:flex items-center gap-x-6 h-full">
+      <div className="hidden small:flex items-center  h-full">
         <LocalizedClientLink
           className="hover:text-ui-fg-base"
           href="/account"
@@ -33,7 +33,7 @@ export default async function LeftNavbar() {
       <Suspense
         fallback={
           <LocalizedClientLink
-            className="hover:text-ui-fg-base flex gap-2"
+            className="hover:text-ui-fg-base flex"
             href="/cart"
             data-testid="nav-cart-link"
           >

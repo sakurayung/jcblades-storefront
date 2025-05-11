@@ -13,7 +13,7 @@ export default async function Footer() {
   const productCategories = await listCategories()
 
   return (
-    <footer className="w-full bg-[#212427] text-[#FBFEFC]">
+    <footer className="w-full bg-[#000000] text-[#FBFEFC]">
       <div className="content-container w-full py-8">
         <div className="flex flex-col md:flex-row justify-between gap-y-8 md:gap-y-0">
           <div className="flex flex-col sm:flex-row gap-y-4 gap-x-8">

@@ -29,7 +29,7 @@ const staggerContainer = {
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white  mt-[90px]">
       <motion.section
         initial="hidden"
         animate="visible"

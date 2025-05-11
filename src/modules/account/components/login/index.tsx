@@ -57,6 +57,7 @@ const Login = ({ setCurrentView }: Props) => {
           src="/login-page.jpg"
           alt="hero"
           fill
+          sizes="(min-width: 1000px) 500vw, 100vw"
           className="object-cover"
           priority
         />

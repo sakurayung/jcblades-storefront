@@ -135,3 +135,11 @@ body::-webkit-scrollbar {
   @apply bg-[#121212] rounded-lg border py-10;
 }
 
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}

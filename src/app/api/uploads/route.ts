@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server"
 import axios from "axios"
 import { getCartId } from "@lib/data/cookies"
 
+
+export const dynamic = "force-dynamic";
+
 export async function POST(request: NextRequest) {
   try {
     // Get form data from request
@@ -29,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
     
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/receipt/upload/public`,
+      `${process.env.MEDUSA_BACKEND_URL}/receipt/upload/public`,
       medusaFormData,
       {
         headers: {

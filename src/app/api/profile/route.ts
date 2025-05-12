@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getAuthHeaders } from "@lib/data/cookies"
 
+export const dynamic = "force-dynamic";
+
 export async function DELETE(req: NextRequest) {
   const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
   const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
@@ -8,10 +10,6 @@ export async function DELETE(req: NextRequest) {
   // Get auth headers from cookies (server-side)
   const authHeaders = await getAuthHeaders()
   const authorization = (authHeaders as any).authorization
-
-  console.log("Authorization Header from cookies:", authorization)
-  console.log("Publishable Key:", publishableKey)
-  console.log("Backend URL:", backendUrl)
 
   if (!authorization || !publishableKey || !backendUrl) {
     console.log("Missing credentials")

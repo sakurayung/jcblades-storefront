@@ -1,21 +1,18 @@
-import Footer from "@modules/layout/templates/footer"; 
-import Header from "@modules/layout/templates/nav"; 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import React from "react"
+
+import Footer from "@modules/layout/templates/footer"
+import Nav from "@modules/layout/templates/nav"
+
+const Layout: React.FC<{
+  children: React.ReactNode
+}> = ({ children }) => {
   return (
-    <html lang="en">
-      {/* Apply Tailwind classes for flex column and min screen height */}
-      <body className="flex flex-col min-h-screen"> 
-        <Header /> 
-        {/* Main content area should grow to push footer down */}
-        <main className="flex-grow">
-          {children}
-        </main>
-        <Footer />
-      </body>
-    </html>
-  );
+    <div>
+      <Nav />
+      <main className="relative">{children}</main>
+      <Footer />
+    </div>
+  )
 }
+
+export default Layout

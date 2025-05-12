@@ -14,6 +14,20 @@ html, body {
   -ms-overflow-style: none; /* Internet Explorer 11 */
 }
 
+html, body, #__next {
+  height: 100%;
+}
+
+body, #__next {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1 0 auto;
+}
+
 /* For WebKit browsers like Chrome, Safari */
 body::-webkit-scrollbar {
   display: none;

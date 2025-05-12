@@ -4,6 +4,13 @@ import { listProducts } from "@lib/data/products"
 import { getRegion, listRegions } from "@lib/data/regions"
 import ProductTemplate from "@modules/products/templates"
 
+/**
+ * This is a dynamic route that displays a product page because in production it returns
+ * an error of 500 weird.....
+ */
+export const dynamic = "force-dynamic";
+
+
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
 }
@@ -18,19 +25,27 @@ export async function generateStaticParams() {
       return []
     }
 
-    const products = await listProducts({
-      countryCode: "US",
-      queryParams: { fields: "handle" },
-    }).then(({ response }) => response.products)
+    const promises = countryCodes.map(async (country) => {
+      const { response } = await listProducts({
+        countryCode: country,
+        queryParams: { limit: 100, fields: "handle" },
+      })
 
-    return countryCodes
-      .map((countryCode) =>
-        products.map((product) => ({
-          countryCode,
+      return {
+        country,
+        products: response.products,
+      }
+    })
+
+    const countryProducts = await Promise.all(promises)
+
+    return countryProducts
+      .flatMap((countryData) =>
+        countryData.products.map((product) => ({
+          countryCode: countryData.country,
           handle: product.handle,
         }))
       )
-      .flat()
       .filter((param) => param.handle)
   } catch (error) {
     console.error(

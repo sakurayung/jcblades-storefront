@@ -4,7 +4,7 @@ import { getAuthHeaders } from "@lib/data/cookies"
 export const dynamic = "force-dynamic";
 
 export async function DELETE(req: NextRequest) {
-  const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+  const backendUrl = process.env.MEDUSA_BACKEND_URL
   const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
 
   // Get auth headers from cookies (server-side)

@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getCartId } from "@lib/data/cookies";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const id = await getCartId();

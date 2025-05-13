@@ -155,14 +155,14 @@ export default async function Footer() {
         <hr className="w-full bg-slate-900 "></hr>
         <div className="flex flex-col md:flex-row justify-between items-end mt-3 gap-y-4">
           <div className="flex flex-col text-right md:text-right w-full md:w-auto">
-            <Text className="font-poppins font-bold text-base">
+            <Text className="font-poppins font-semibold text-base">
               claymore0three@gmail.com
             </Text>
-            <Text className="font-poppins font-bold text-base">
+            <Text className="font-poppins font-semibold text-base">
               Davao City, 8000
             </Text>
           </div>
-          <div className="flex flex-col md:flex-row justify-between w-full md:w-auto my-3 md:my-0 items-center gap-y-4">
+          <div className="flex flex-col md:flex-row justify-between w-full md:w-auto my-3 md:my-0 items-center gap-6">
             <div>
               <Text className="font-poppins text-bold text-base text-center md:text-left">
                 © {new Date().getFullYear()} JC Blades. All rights reserved.

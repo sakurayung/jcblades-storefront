@@ -21,8 +21,8 @@ const fadeIn = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6 }
-  }
+    transition: { duration: 0.6 },
+  },
 }
 
 const staggerContainer = {
@@ -31,24 +31,25 @@ const staggerContainer = {
     opacity: 1,
     transition: {
       staggerChildren: 0.1,
-      delayChildren: 0.3
-    }
-  }
+      delayChildren: 0.3,
+    },
+  },
 }
 
 const Register = ({ setCurrentView }: Props) => {
   const [message, formAction] = useActionState(signup, null)
 
   return (
-    <motion.div 
+    <motion.div
       className="flex flex-col md:flex-row w-full min-h-screen"
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
+      style={{ minHeight: "100vh" }}
     >
       {/* Left side - Image */}
-      <motion.div 
-        className="hidden md:block md:w-1/2 relative"
+      <motion.div
+        className="hidden md:block md:w-1/2 h-full relative"
         variants={fadeIn}
       >
         <Image
@@ -62,17 +63,18 @@ const Register = ({ setCurrentView }: Props) => {
       </motion.div>
 
       {/* Right side - Registration form */}
-      <motion.div 
-        className="w-full md:w-1/2 flex items-center justify-center px-4 md:px-8 py-6"
+      <motion.div
+        className="w-full md:w-1/2 flex items-center justify-center px-4 md:px-8 py-6 md:pt-20"
         variants={fadeIn}
+        style={{ minHeight: "100vh" }}
       >
         <motion.div
-          className="flex flex-col gap-y-6 border rounded-3xl w-full max-w-[500px] px-6 md:px-8 py-8"
+          className="flex flex-col gap-y-6 border rounded-3xl w-full max-w-[500px] px-6 md:px-8 py-10 md:py-[60px] bg-white shadow-lg"
           data-testid="register-page"
           variants={fadeIn}
           transition={{ duration: 0.5 }}
         >
-          <motion.div 
+          <motion.div
             className="flex items-center justify-center mb-2"
             variants={fadeIn}
           >
@@ -86,17 +88,19 @@ const Register = ({ setCurrentView }: Props) => {
               />
             </LocalizedClientLink>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="flex flex-col justify-between gap-y-2"
             variants={fadeIn}
           >
-            <Text className="font-poppins font-bold text-4xl md:text-5xl text-center md:text-left">Register</Text>
+            <Text className="font-poppins font-bold text-4xl md:text-5xl text-center md:text-left">
+              Register
+            </Text>
             <Text className="font-poppins text-center md:text-left">
               Create your account to continue and shop with us.
             </Text>
           </motion.div>
-          <motion.form 
-            className="w-full flex flex-col" 
+          <motion.form
+            className="w-full flex flex-col"
             action={formAction}
             variants={fadeIn}
           >

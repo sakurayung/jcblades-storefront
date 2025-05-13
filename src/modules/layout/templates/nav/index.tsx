@@ -15,7 +15,7 @@
 
   return (
     <div className="fixed top-0 inset-x-0 z-50 group">
-      <header id="main-navbar" className="relative mx-auto border-b bg-white py-8 border-[#e5e7eb]">
+      <header id="main-navbar" className="relative mx-auto border-b bg-white py-6 border-[#e5e7eb]">
         <nav className="content-container flex items-center justify-between w-full h-full text-small-regular">
           
           {/* Left - Logo */}

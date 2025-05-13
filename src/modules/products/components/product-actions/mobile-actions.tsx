@@ -1,4 +1,4 @@
-import { Dialog, Transition } from "@headlessui/react"
+import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react"
 import { Button, clx } from "@medusajs/ui"
 import React, { Fragment, useMemo } from "react"
 
@@ -52,7 +52,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   return (
     <>
       <div
-        className={clx("lg:hidden inset-x-0 bottom-0 fixed", {
+        className={clx("lg:hidden inset-x-0 bottom-0 fixed z-[999]", {
           "pointer-events-none": !show,
         })}
       >
@@ -129,8 +129,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
         </Transition>
       </div>
       <Transition appear show={state} as={Fragment}>
-        <Dialog as="div" className="relative z-[75]" onClose={close}>
-          <Transition.Child
+        <Dialog as="div" className="relative z-[9999]" onClose={close}>
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0"
@@ -140,11 +140,11 @@ const MobileActions: React.FC<MobileActionsProps> = ({
             leaveTo="opacity-0"
           >
             <div className="fixed inset-0 bg-gray-700 bg-opacity-75 backdrop-blur-sm" />
-          </Transition.Child>
+          </TransitionChild>
 
           <div className="fixed bottom-0 inset-x-0">
             <div className="flex min-h-full h-full items-center justify-center text-center">
-              <Transition.Child
+              <TransitionChild
                 as={Fragment}
                 enter="ease-out duration-300"
                 enterFrom="opacity-0"
@@ -153,7 +153,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Dialog.Panel
+                <DialogPanel
                   className="w-full h-full transform overflow-hidden text-left flex flex-col gap-y-3"
                   data-testid="mobile-actions-modal"
                 >
@@ -185,8 +185,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                       </div>
                     )}
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                </DialogPanel>
+              </TransitionChild>
             </div>
           </div>
         </Dialog>

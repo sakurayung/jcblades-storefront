@@ -53,6 +53,19 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
     initialState
   )
 
+  const [formValues, setFormValues] = React.useState({
+    first_name: billingAddress?.first_name || "",
+    last_name: billingAddress?.last_name || "",
+    company: billingAddress?.company || "",
+    address_1: billingAddress?.address_1 || "",
+    address_2: billingAddress?.address_2 || "",
+    postal_code: billingAddress?.postal_code || "",
+    city: billingAddress?.city || "",
+    province: billingAddress?.province || "",
+    phone: billingAddress?.phone || "",
+    country_code: billingAddress?.country_code || "",
+  })
+
   const clearState = () => {
     setSuccessState(false)
   }
@@ -60,6 +73,21 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
   useEffect(() => {
     setSuccessState(state.success)
   }, [state])
+
+  useEffect(() => {
+    setFormValues({
+      first_name: billingAddress?.first_name || "",
+      last_name: billingAddress?.last_name || "",
+      company: billingAddress?.company || "",
+      address_1: billingAddress?.address_1 || "",
+      address_2: billingAddress?.address_2 || "",
+      postal_code: billingAddress?.postal_code || "",
+      city: billingAddress?.city || "",
+      province: billingAddress?.province || "",
+      phone: billingAddress?.phone || "",
+      country_code: billingAddress?.country_code || "",
+    })
+  }, [billingAddress])
 
   const currentInfo = useMemo(() => {
     if (!billingAddress) {
@@ -85,6 +113,7 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
           {billingAddress.postal_code}, {billingAddress.city}
         </span>
         <span>{country}</span>
+        {billingAddress.phone && <span>{billingAddress.phone}</span>}
       </div>
     )
   }, [billingAddress, regionOptions])
@@ -105,14 +134,20 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
             <Input
               label="First name"
               name="first_name"
-              defaultValue={billingAddress?.first_name || undefined}
+              value={formValues.first_name}
+              onChange={(e) =>
+                setFormValues((v) => ({ ...v, first_name: e.target.value }))
+              }
               required
               data-testid="billing-first-name-input"
             />
             <Input
               label="Last name"
               name="last_name"
-              defaultValue={billingAddress?.last_name || undefined}
+              value={formValues.last_name}
+              onChange={(e) =>
+                setFormValues((v) => ({ ...v, last_name: e.target.value }))
+              }
               required
               data-testid="billing-last-name-input"
             />
@@ -120,34 +155,49 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
           <Input
             label="Company"
             name="company"
-            defaultValue={billingAddress?.company || undefined}
+            value={formValues.company}
+            onChange={(e) =>
+              setFormValues((v) => ({ ...v, company: e.target.value }))
+            }
             data-testid="billing-company-input"
           />
           <Input
             label="Address"
             name="address_1"
-            defaultValue={billingAddress?.address_1 || undefined}
+            value={formValues.address_1}
+            onChange={(e) =>
+              setFormValues((v) => ({ ...v, address_1: e.target.value }))
+            }
             required
             data-testid="billing-address-1-input"
           />
           <Input
             label="Apartment, suite, etc."
             name="address_2"
-            defaultValue={billingAddress?.address_2 || undefined}
+            value={formValues.address_2}
+            onChange={(e) =>
+              setFormValues((v) => ({ ...v, address_2: e.target.value }))
+            }
             data-testid="billing-address-2-input"
           />
           <div className="grid grid-cols-[144px_1fr] gap-x-2">
             <Input
               label="Postal code"
               name="postal_code"
-              defaultValue={billingAddress?.postal_code || undefined}
+              value={formValues.postal_code}
+              onChange={(e) =>
+                setFormValues((v) => ({ ...v, postal_code: e.target.value }))
+              }
               required
               data-testid="billing-postcal-code-input"
             />
             <Input
               label="City"
               name="city"
-              defaultValue={billingAddress?.city || undefined}
+              value={formValues.city}
+              onChange={(e) =>
+                setFormValues((v) => ({ ...v, city: e.target.value }))
+              }
               required
               data-testid="billing-city-input"
             />
@@ -155,12 +205,27 @@ const ProfileBillingAddress: React.FC<MyInformationProps> = ({
           <Input
             label="Province"
             name="province"
-            defaultValue={billingAddress?.province || undefined}
+            value={formValues.province}
+            onChange={(e) =>
+              setFormValues((v) => ({ ...v, province: e.target.value }))
+            }
             data-testid="billing-province-input"
+          />
+          <Input
+            label="Phone"
+            name="phone"
+            value={formValues.phone}
+            onChange={(e) =>
+              setFormValues((v) => ({ ...v, phone: e.target.value }))
+            }
+            data-testid="billing-phone-input"
           />
           <NativeSelect
             name="country_code"
-            defaultValue={billingAddress?.country_code || undefined}
+            value={formValues.country_code}
+            onChange={(e) =>
+              setFormValues((v) => ({ ...v, country_code: e.target.value }))
+            }
             required
             data-testid="billing-country-code-select"
           >

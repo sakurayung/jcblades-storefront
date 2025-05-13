@@ -47,6 +47,7 @@ const Login = ({ setCurrentView }: Props) => {
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
+      style={{ minHeight: "100vh", display: "flex" }}
     >
       {/* Left side - Image */}
       <motion.div 
@@ -65,11 +66,12 @@ const Login = ({ setCurrentView }: Props) => {
 
       {/* Right side - Login form */}
       <motion.div 
-        className="w-full md:w-1/2 flex items-center justify-center px-4 md:px-8 py-8 md:py-12"
+        className="w-full md:w-1/2 flex items-center justify-center px-4 md:px-8 pt-0 md:pt-20"
         variants={fadeIn}
+        style={{ minHeight: "100vh" }}
       >
         <motion.div
-          className="flex flex-col gap-y-6 border rounded-2xl w-full max-w-[500px] px-6 md:px-8 py-10 md:py-[60px]"
+          className="flex flex-col gap-y-6 border rounded-2xl w-full max-w-[500px] px-6 md:px-8 py-10 md:py-[60px] bg-white shadow-lg"
           data-testid="login-page"
           variants={fadeIn}
           transition={{ duration: 0.5 }}

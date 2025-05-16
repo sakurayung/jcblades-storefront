@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
                 revalidatePath("/[countryCode]/(main)/products/[handle]", "page")
                 revalidatePath("/[countryCode]/(main)/categories", "page")
                 revalidatePath("/[countryCode]/(main)/collections", "page")
+                revalidatePath("/[countryCode]/(main)/", "page")
         }
     })
   )
